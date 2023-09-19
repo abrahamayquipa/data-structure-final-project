@@ -26,9 +26,6 @@
     <ClInclude Include="menu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ListaEnlazadaSimple.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="usuario.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,6 +39,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="operaciones.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="listaDoblementeEnlazada.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nodo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="listaEnlazada.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

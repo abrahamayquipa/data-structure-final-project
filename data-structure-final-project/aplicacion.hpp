@@ -1,5 +1,5 @@
-#ifndef APLICACION_H
-#define APLICACION_H
+#ifndef __APLICACION_HPP__
+#define __APLICACION_HPP__
 #include <iostream>
 using namespace std;
 
@@ -14,6 +14,7 @@ public:
         this->comentarios = "";
         this->calificacion = 0;
         this->numeroDescargas = 0;
+        this->estaDisponibleComprar = 0;
     }
     Aplicacion(string nombre, string descripcion, bool estaDisponibleComprar) {
         this->nombre = nombre;
