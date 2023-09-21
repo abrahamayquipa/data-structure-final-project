@@ -1,5 +1,9 @@
 #include <iostream>
 #include <string>
+// conio.h para usar _getch()
+#include <conio.h> 
+// windows.h para manipular la consola
+#include <Windows.h>
 #include "aplicacion.hpp"
 #include "usuarioRegular.hpp"
 #include "usuarioDesarrollador.hpp"
@@ -14,6 +18,8 @@ int main() {
     UsuarioDesarrollador* objetoUsuarioDesarrollador = new UsuarioDesarrollador();
     UsuarioStaff* objetoUsuarioStaff = new UsuarioStaff();
 
+    Operaciones* objetoOperaciones = new Operaciones();
+
     string correoElectronico, contrasena;
 
     do {
@@ -24,33 +30,24 @@ int main() {
     } while (
         correoElectronico != objetoUsuarioRegular->getCorreoElectronico() && correoElectronico != objetoUsuarioDesarrollador->getCorreoElectronico() && correoElectronico != objetoUsuarioStaff->getCorreoElectronico() || 
         contrasena != objetoUsuarioRegular->getContrasena() && contrasena != objetoUsuarioDesarrollador->getContrasena() && contrasena != objetoUsuarioStaff->getContrasena());
-
+    
     while (true) {
-        system("cls");
-        if (correoElectronico == "regular") { 
-            opcionMenuPrincipal = menuRegularPrincipal(); 
-            opcionMenuSecundario = 1; 
-        } else if (correoElectronico == "desarrollador") { 
-            opcionMenuPrincipal = menuDesarrolladorPrincipal(); 
-            opcionMenuSecundario = 2; 
-        } else { 
-            opcionMenuPrincipal = menuStaffPrincipal(); 
-            opcionMenuSecundario = 3; 
+        if (correoElectronico == "regular") {
+            opcionMenuPrincipal = menuRegularPrincipal();
+            menuRegularSecundario(opcionMenuPrincipal, objetoOperaciones);
         }
-        system("cls");
+        else if (correoElectronico == "desarrollador") {
+            opcionMenuPrincipal = menuDesarrolladorPrincipal();
+            menuDesarrolladorSecundario(opcionMenuPrincipal, objetoOperaciones);
+        }
+        else if (correoElectronico == "staff") {
+            opcionMenuPrincipal = menuStaffPrincipal();
+            menuStaffSecundario(opcionMenuPrincipal, objetoOperaciones);
+        }
+        else break;
+        _getch();
+    }
 
-        switch (opcionMenuSecundario){
-        case 1: 
-            menuRegularSecundario(opcionMenuPrincipal); 
-            break;
-        case 2: 
-            menuDesarrolladorSecundario(opcionMenuPrincipal); 
-            break;
-        case 3: 
-            menuStaffSecundario(opcionMenuPrincipal); 
-            break;
-        }
-    };
     system("pause>0");
     delete objetoUsuarioRegular;
     delete objetoUsuarioDesarrollador;

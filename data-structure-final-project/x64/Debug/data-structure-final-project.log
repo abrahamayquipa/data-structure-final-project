@@ -1,4 +1,7 @@
 ﻿  data-structure-final-project.cpp
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(39,7): warning C4101: 'calificacion': unreferenced local variable
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(39,21): warning C4101: 'numeroDescargas': unreferenced local variable
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\data-structure-final-project.cpp(15,30): warning C4101: 'opcionMenuSecundario': unreferenced local variable
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\functional(841,31): warning C4244: 'return': conversion from '__int64' to '_Rx', possible loss of data
           with
           [
@@ -32,6 +35,6 @@ C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\li
               _Fx=listaEnlazada<Aplicacion *,0x0>::{ctor}::<lambda_1_>
           ]
 C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\listaEnlazada.hpp(16,5): message : while compiling class template member function 'listaEnlazada<Aplicacion *,0x0>::listaEnlazada(void)'
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(17,23): message : see the first reference to 'listaEnlazada<Aplicacion *,0x0>::listaEnlazada' in 'Operaciones::Operaciones'
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(17,29): message : see reference to class template instantiation 'listaEnlazada<Aplicacion *,0x0>' being compiled
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(13,23): message : see the first reference to 'listaEnlazada<Aplicacion *,0x0>::listaEnlazada' in 'Operaciones::Operaciones'
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(13,29): message : see reference to class template instantiation 'listaEnlazada<Aplicacion *,0x0>' being compiled
   data-structure-final-project.vcxproj -> C:\Users\PC\Desktop\data-structure-final-project\x64\Debug\data-structure-final-project.exe

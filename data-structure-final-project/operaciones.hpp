@@ -6,22 +6,38 @@
 using namespace std;
 
 class Operaciones {
-	string nombre, descripcion, comentarios;
-	int calificacion, numeroDescargas;
-	bool disponibleParaComprar;
-
 	listaEnlazada<Aplicacion*, nullptr>* objetoListaEnlazada;
-	ListaDoblemeneteEnlazadas<Aplicacion*> objetoListaDoblementeEnlazada;
+	ListaDoblementeEnlazada<Aplicacion> objetoListaDoblementeEnlazada;
 public:
 	Operaciones() {
 		objetoListaEnlazada = new listaEnlazada<Aplicacion*, nullptr>();
+
 	};
 	~Operaciones() {
 		delete objetoListaEnlazada; 
 	};
 
+	void buscarElemento(string nombre) {
+		if (objetoListaDoblementeEnlazada.isEmpty()) cout << "La lista de aplicaciones esta vacia";
+		else {
+			for (int i = 0; i < objetoListaDoblementeEnlazada.size(); i++) {
+				if (objetoListaDoblementeEnlazada.obtenerNodoPos(i).getNombre() == nombre) {
+					cout << endl;
+					cout << "DATOS ALUMNO " << i + 1 << ":" << endl;
+					cout << "Nombre: " << objetoListaDoblementeEnlazada.obtenerNodoPos(i).getNombre() << endl;
+					cout << "Descripcion: " << objetoListaDoblementeEnlazada.obtenerNodoPos(i).getDescripcion() << endl;
+					if (objetoListaDoblementeEnlazada.obtenerNodoPos(i).getEstaDisponibleComprar() == 0)
+						cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
+					else cout << "Opcion de compra: Dispoible a $0.99" << endl;
+				} else cout << "No se encontro la aplicacion, intentelo de nuevo";
+			}
+		}
+	}
+
 	void insertarFinal() {
-		cout << "AGREGAR APLICACION: " << endl;
+		string nombre, descripcion, comentarios;
+		int calificacion, numeroDescargas;
+		bool disponibleParaComprar;
 		cout << "Nombre: ";
 		cin.ignore();
 		getline(cin, nombre);
@@ -30,19 +46,27 @@ public:
 		cin.ignore();
 		getline(cin, descripcion);
 
-		cout << "Opcion de compra(0 - no disponible, 1 - disponible): "; cin >> disponibleParaComprar;
+		cout << "Opcion de compra:" << endl;
+		cout << "	0 - no disponible" << endl;
+		cout << "	1 - disponible" << endl;
+		cout << "Opcion: "; cin >> disponibleParaComprar;
 
-		Aplicacion* objetoAplicacion = new Aplicacion(nombre, descripcion, disponibleParaComprar);
-		objetoListaDoblementeEnlazada.insertarFinal(objetoAplicacion);
+		Aplicacion objetoAplicacion = Aplicacion(nombre, descripcion, disponibleParaComprar);
+		objetoListaDoblementeEnlazada.pushBack(objetoAplicacion);
+		cout << endl << "aplicacion guardada con exito...";
 	}
 
 	void mostrarContenidoLista() {
-		cout << "LISTA:" << endl << endl;
-		if (objetoListaDoblementeEnlazada.esVacia()) cout << "La lista esta vacia";
+		if (objetoListaDoblementeEnlazada.isEmpty()) cout << "La lista de aplicaciones esta vacia";
 		else {
-			for (int i = 0; i < objetoListaDoblementeEnlazada.longitud(); i++) {
+			for (int i = 0; i < objetoListaDoblementeEnlazada.size(); i++) {
+				cout << endl;
 				cout << "DATOS ALUMNO " << i + 1 << ":" << endl;
-				//cout << "Nombre: " << objetoListaDoblementeEnlazada.obtenerPosicion(i)->getNombre() << endl;
+				cout << "Nombre: " << objetoListaDoblementeEnlazada.obtenerNodoPos(i).getNombre() << endl;
+				cout << "Descripcion: " << objetoListaDoblementeEnlazada.obtenerNodoPos(i).getDescripcion() << endl;
+				if (objetoListaDoblementeEnlazada.obtenerNodoPos(i).getEstaDisponibleComprar() == 0)
+					cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
+				else cout << "Opcion de compra: Dispoible a $0.99" << endl;
 			}
 		}
 	}
