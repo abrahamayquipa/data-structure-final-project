@@ -1,158 +1,225 @@
-#ifndef __LISTA_H__
-#define __LISTA_H__
+#ifndef __LISTA_DOBLEMENTE_ENLAZADA_HPP__
+#define __LISTA_DOBLEMENTE_ENLAZADA_HPP__
 #include <cstdint>
 #include <functional>
 
 template<class T>
 class ListaDoblementeEnlazada {
+private:
+    struct Nodo {
+        T valor;
+        Nodo* siguiente;
+        Nodo* anterior;
+        Nodo(T value) : valor(value), siguiente(nullptr), anterior(nullptr) {}
+    };
+    Nodo* nodoInicial;
+    Nodo* nodoFinal;
+    size_t longitud;
 public:
     ListaDoblementeEnlazada() {
-        this->_start = this->_end = nullptr;
-        this->_size = 0;
+        this->nodoInicial = this->nodoFinal = nullptr;
+        this->longitud = 0;
     }
-    void pushBack(T value) {
-        Node* newNode = new Node(value);
-        if (_size == 0) {
-            this->_start = this->_end = newNode;
-            _size = 1;
+
+    void insertarInicio(T valor) {
+        Nodo* nuevoNodo = new Nodo(valor);
+        if (longitud == 0) {
+            this->nodoInicial = this->nodoFinal = nuevoNodo;
+            this->longitud = 1;
             return;
         }
-        this->_end->next = newNode;
-        newNode->back = this->_end;
-        this->_end = this->_end->next;
-        _size++;
+        nuevoNodo->siguiente = this->nodoInicial;
+        this->nodoInicial->anterior = nuevoNodo;
+        this->nodoInicial = this->nodoInicial->anterior;
+        ++this->longitud;
     }
-    void insertAt(T value, int pos) {
-        if (pos < 0 || pos > _size) throw "Invalid position";
-        if (pos == 0) { pushFront(value); return; }
-        if (pos == _size) { pushBack(value); return; }
-        Node* aux = this->_start;
-        Node* newNode = new Node(value);
-        for (int i = 0; i < pos - 1; ++i) aux = aux->next;
+
+    void insertarFinal(T valor) {
+        Nodo* nuevoNodo = new Nodo(valor);
+        if (longitud == 0) {
+            this->nodoInicial = this->nodoFinal = nuevoNodo;
+            longitud = 1;
+            return;
+        }
+        this->nodoFinal->siguiente = nuevoNodo;
+        nuevoNodo->anterior = this->nodoFinal;
+        this->nodoFinal = this->nodoFinal->siguiente;
+        longitud++;
+    }
+
+    void insertarEnPosicion(T valor, int posicion) {
+        if (posicion < 0 || posicion > longitud) throw "Invalid position";
+        if (posicion == 0) { insertarInicio(valor); return; }
+        if (posicion == longitud) { insertarFinal(valor); return; }
+        Nodo* auxiliar = this->nodoInicial;
+        Nodo* nuevoNodo = new Nodo(valor);
+        for (int i = 0; i < posicion - 1; ++i) auxiliar = auxiliar->siguiente;
         // Enlazar el nodo a insertar con el nodo en la posición pos (aux->next)
-        newNode->next = aux->next;
-        aux->next->back = newNode;
+        nuevoNodo->siguiente = auxiliar->siguiente;
+        auxiliar->siguiente->anterior = nuevoNodo;
         // Enlazamos el nodo a insertar con el nodo anterior al de la posición pos (aux)
-        aux->next = newNode;
-        newNode->back = aux;
+        auxiliar->siguiente = nuevoNodo;
+        nuevoNodo->anterior = auxiliar;
 
-        ++this->_size;
+        ++this->longitud;
     }
-    void pushFront(T value) {
-        Node* newNode = new Node(value);
-        if (_size == 0) {
-            this->_start = this->_end = newNode;
-            this->_size = 1;
-            return;
-        }
-        newNode->next = this->_start;
-        this->_start->back = newNode;
-        this->_start = this->_start->back;
-        ++this->_size;
-    }
-    void display(std::function<void(T)> show) {
-        Node* aux = this->_start;
-        while (aux) {
-            show(aux->value);
-            aux = aux->next;
-        }
-    }
-    void popBack() {
-        if (this->_size == 0) throw "Cannot erase in empty list";
-        if (this->_size == 1) {
-            delete _start;
-            _start = _end = nullptr;
-            _size = 0;
-            return;
-        }
-        _end = _end->back;
-        _end->next->back = nullptr;
-        delete _end->next;
-        _end->next = nullptr;
-        --_size;
-    }
-    void popFront() {
-        if (this->_size == 0) throw "Cannot erase in empty list";
-        if (this->_size == 1) {
-            delete _start;
-            _start = _end = nullptr;
-            _size = 0;
-            return;
-        }
-        _start = _start->next;
-        _start->back->next = nullptr;
-        delete _start->back;
-        _start->back = nullptr;
-        --_size;
-    }
-    void eraseAt(int pos) {
-        if (pos < 0 || pos >= _size) throw "Cannot erase out of bounds";
-        if (pos == 0) {
-            popFront();
-            return;
-        }
-        if (pos == _size - 1) {
-            popBack();
-            return;
-        }
-        Node* aux = _start;
-        for (unsigned int i = 0; i < pos - 1; ++i) aux = aux->next;
-        Node* toErase = aux->next;
 
-        aux->next = aux->next->next;
-        aux->next->back = aux->next->back->back;
+    void eliminarInicio() {
+        if (this->longitud == 0) throw "Cannot erase in empty list";
+        if (this->longitud == 1) {
+            delete nodoInicial;
+            nodoInicial = nodoFinal = nullptr;
+            longitud = 0;
+            return;
+        }
+        nodoInicial = nodoInicial->siguiente;
+        nodoInicial->anterior->siguiente = nullptr;
+        delete nodoInicial->anterior;
+        nodoInicial->anterior = nullptr;
+        --longitud;
+    }
 
-        toErase->next = toErase->back = nullptr;
+    void eliminarFinal() {
+        if (this->longitud == 0) throw "Cannot erase in empty list";
+        if (this->longitud == 1) {
+            delete nodoInicial;
+            nodoInicial = nodoFinal = nullptr;
+            longitud = 0;
+            return;
+        }
+        nodoFinal = nodoFinal->anterior;
+        nodoFinal->siguiente->anterior = nullptr;
+        delete nodoFinal->siguiente;
+        nodoFinal->siguiente = nullptr;
+        --longitud;
+    }
+
+    void eliminaPosicion(int posicion) {
+        if (posicion < 0 || posicion >= longitud) throw "Cannot erase out of bounds";
+        if (posicion == 0) {
+            eliminarInicio();
+            return;
+        }
+        if (posicion == longitud - 1) {
+            eliminarFinal();
+            return;
+        }
+        Nodo* auxiliar = nodoInicial;
+        for (unsigned int i = 0; i < posicion - 1; ++i) auxiliar = auxiliar->siguiente;
+        Nodo* toErase = auxiliar->siguiente;
+
+        auxiliar->siguiente = auxiliar->siguiente->siguiente;
+        auxiliar->siguiente->anterior = auxiliar->siguiente->anterior->anterior;
+
+        toErase->siguiente = toErase->anterior = nullptr;
 
         delete toErase;
-        --_size;
-    }
-    void modifyAt(int pos, std::function<void(T&)> modify) {
-        if (pos < 0 || pos >= _size) throw "Oye >:V";
-        Node* aux = _start;
-        for (size_t i = 0; i < pos; ++i) aux = aux->next;
-        modify(aux->value);
-    }
-    bool isEmpty() {
-        return this->_size == 0;
-    }
-    size_t size() {
-        return this->_size;
-    }
-    T getByCriteria(std::function<bool(T)> criteria) {
-        Node* aux = this->_start;
-        while (aux) {
-            if (criteria(aux->value)) return aux->value;
-            aux = aux->next;
-        }
-        return T();
+        --longitud;
     }
 
-    T obtenerNodoPos(int pos) {
-        if (pos >= 0 && pos < _size) {
-            Node* aux = this->_start;
-
-            for (int i = 0; i < pos; i++) {
-                aux = aux->next;
-            }
-            return aux->value;
-        }
-        else {
-            throw "Posición fuera de rango";  // Añadido para manejar posiciones no válidas
-        }
+    bool estaVacia() {
+        return this->longitud == 0;
     }
-private:
-    struct Node {
-        T value;
-        Node* next;
-        Node* back;
-        Node(T value) : value(value), next(nullptr), back(nullptr) {}
-    };
-    Node* _start;
-    Node* _end;
-    size_t _size;
-    std::function<void(T)> _show;
+
+    size_t tamano() {
+        return this->longitud;
+    }
+
+    T obtenerPosicion(int posicion) {
+        if (posicion >= 0 && posicion < longitud) {
+            Nodo* auxiliar = this->nodoInicial;
+            for (int i = 0; i < posicion; i++) auxiliar = auxiliar->siguiente;
+            return auxiliar->valor;
+        }
+        else throw "Posición fuera de rango";
+    }
+
+    //void shellSort(int a[], int n) {
+    //    int i, j, k, intervalo = n/2;
+    //    int temp;
+    //    while (intervalo > 0) {
+    //        for (int i = intervalo; i <= n; i++) {
+    //            j = i - intervalo;
+    //            while (j >= 0) {
+    //                k = j + intervalo;
+    //                if (a[j] <= a[k]) j = -1;
+    //                else {
+    //                    temp = a[j];
+    //                    a[j] = a[k];
+    //                    a[k] = temp;
+    //                    j -= intervalo;
+    //                }
+    //            }
+    //        }
+    //        intervalo = intervalo / 2;
+    //    }
+    //}
+
+
+
+    //void shellSort() {
+    //    int intervalo = longitud / 2;
+    //
+    //    while (intervalo > 0) {
+    //        Nodo* i = nodoInicial;
+    //        for (int count = 0; count < intervalo; count++) i = i->siguiente;
+    //
+    //        while (i != nullptr) {
+    //            T valorTemporal = i->valor;
+    //            Nodo* j = i;
+    //
+    //            // Mover el nodo j hacia atrás por intervalo mientras sea mayor que valorTemporal
+    //            int count = 0;
+    //            while (j != nullptr && count < intervalo && j->anterior != nullptr && j->anterior->valor > valorTemporal) {
+    //                j->valor = j->anterior->valor;
+    //                j = j->anterior;
+    //                count++;
+    //            }
+    //            // Asignar valorTemporal al nodo adecuado
+    //            if (j != nullptr) j->valor = valorTemporal;
+    //            if (i->siguiente != nullptr) i = i->siguiente;
+    //            else i = nullptr;
+    //        }
+    //        intervalo /= 2;
+    //    }
+    //}
+
+    //template <typename T>
+    //void shellSort() {
+    //    int intervalo = longitud / 2;
+    //
+    //    while (intervalo > 0) {
+    //        Nodo<T>* i = nodoInicial;
+    //        for (int count = 0; count < intervalo; count++) {
+    //            if (i->siguiente == nullptr) break;
+    //            i = i->siguiente;
+    //        }
+    //
+    //        while (i != nullptr) {
+    //            T valorTemporal = i->valor;
+    //            Nodo<T>* j = i;
+    //            Nodo<T>* j_gap = i;
+    //
+    //            for (int g = 0; g < intervalo && j_gap->anterior != nullptr; g++) {
+    //                j_gap = j_gap->anterior;
+    //            }
+    //
+    //            while (j_gap != nullptr && j_gap->valor > valorTemporal) {
+    //                j->valor = j_gap->valor;
+    //                j = j_gap;
+    //
+    //                for (int g = 0; g < intervalo && j_gap->anterior != nullptr; g++) {
+    //                    j_gap = j_gap->anterior;
+    //                }
+    //            }
+    //
+    //            j->valor = valorTemporal;
+    //            i = i->siguiente;
+    //        }
+    //        intervalo /= 2;
+    //    }
+    //}
+
 };
-
 
 #endif
