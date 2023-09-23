@@ -12,7 +12,7 @@
 using namespace std;
 
 int main() {
-    int opcionMenuPrincipal, opcionMenuSecundario;
+    int opcionMenuPrincipal;
 
     UsuarioRegular* objetoUsuarioRegular = new UsuarioRegular();
     UsuarioDesarrollador* objetoUsuarioDesarrollador = new UsuarioDesarrollador();

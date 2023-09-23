@@ -1,17 +1,14 @@
-#ifndef __NODO_H__
-#define __NODO_H__
+#ifndef __NODO_HPP__
+#define __NODO_HPP__
 
 template<class T>
 class Nodo {
 public:
-	T valor;
-	Nodo<T>* anterior;
+	T dato;
 	Nodo<T>* siguiente;
 
-public:
-	Nodo(T v, Nodo<T>* ant = NULL, Nodo<T>* sig = NULL) {
-		valor = v;
-		anterior = ant;
+	Nodo(T v, Nodo<T>* sig = NULL) {
+		dato = v;
 		siguiente = sig;
 	}
 };

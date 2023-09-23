@@ -131,11 +131,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aplicacion.hpp" />
+    <ClInclude Include="cola.hpp" />
     <ClInclude Include="listaDoblementeEnlazada.hpp" />
     <ClInclude Include="listaEnlazada.hpp" />
     <ClInclude Include="menu.hpp" />
     <ClInclude Include="nodo.hpp" />
     <ClInclude Include="operaciones.hpp" />
+    <ClInclude Include="pila.hpp" />
     <ClInclude Include="usuario.hpp" />
     <ClInclude Include="usuarioDesarrollador.hpp" />
     <ClInclude Include="usuarioRegular.hpp" />

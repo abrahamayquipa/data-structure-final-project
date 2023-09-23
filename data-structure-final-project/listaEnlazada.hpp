@@ -9,9 +9,9 @@ class listaEnlazada {
     typedef function<int(T, T)> Comp;
 
     Nodo* ini;
-    uint lon; // número de elementos en la lista
+    uint lon;
 
-    Comp comparar; // lambda de criterio de comparación
+    Comp comparar;
 public:
     listaEnlazada() : ini(nullptr), lon(0), comparar([](T a, T b) {return a - b; }) {}
     listaEnlazada(Comp comparar) : ini(nullptr), lon(0), comparar(comparar) {}

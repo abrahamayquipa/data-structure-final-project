@@ -1,5 +1,4 @@
 ﻿  data-structure-final-project.cpp
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\data-structure-final-project.cpp(15,30): warning C4101: 'opcionMenuSecundario': unreferenced local variable
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\functional(841,31): warning C4244: 'return': conversion from '__int64' to '_Rx', possible loss of data
           with
           [

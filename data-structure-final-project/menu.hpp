@@ -6,35 +6,44 @@
 using namespace std;
 
 int menuRegularPrincipal() {
-    system("cls");
-    int opcion = 0;
-    cout << "TIENDA DE APLICACIONES" << endl;
-    cout << "MENU COMO USUARIO REGULAR:" << endl;
-    cout << "1. Buscar aplicacion" << endl;
-    cout << "Elegir opcion: "; cin >> opcion;
-    return opcion;
+    auto mostrarMenu = []() -> int {
+        system("cls");
+        int opcion = 0;
+        cout << "TIENDA DE APLICACIONES" << endl;
+        cout << "MENU COMO USUARIO REGULAR:" << endl;
+        cout << "1. Buscar aplicacion" << endl;
+        cout << "Elegir opcion: "; cin >> opcion;
+        return opcion;
+    };
+    return mostrarMenu();
 }
 
 void menuRegularSecundario(int opcion, Operaciones* objetoOperaciones) {
     system("cls");
+    string nombre;
     switch (opcion) {
     case 1:
         cout << "BUSCAR APLICACION: " << endl;
+        cout << "Nombre de la aplicacion: "; cin >> nombre;
+        objetoOperaciones->buscarAplicacion(nombre);
         break;
     }
 }
 
 int menuDesarrolladorPrincipal() {
-    system("cls");
-    int opcion = 0;
-    cout << "TIENDA DE APLICACIONES" << endl;
-    cout << "MENU COMO USUARIO DESARROLLADOR:" << endl;
-    cout << "1. Buscar aplicacion" << endl;
-    cout << "2. Agregar aplicacion" << endl;
-    cout << "3. Listar todas las aplicaciones disponibles" << endl;
-    cout << "4. Ordenamiento inverso de la lista de aplicaciones disponibles" << endl;
-    cout << "Elegir opcion: "; cin >> opcion;
-    return opcion;
+    auto mostrarMenu = []() -> int {
+        system("cls");
+        int opcion = 0;
+        cout << "TIENDA DE APLICACIONES" << endl;
+        cout << "MENU COMO USUARIO DESARROLLADOR:" << endl;
+        cout << "1. Buscar aplicacion" << endl;
+        cout << "2. Agregar aplicacion" << endl;
+        cout << "3. Listar todas las aplicaciones disponibles" << endl;
+        cout << "4. Ordenamiento inverso de la lista de aplicaciones disponibles" << endl;
+        cout << "Elegir opcion: "; cin >> opcion;
+        return opcion;
+    };
+    return mostrarMenu();
 }
 
 void menuDesarrolladorSecundario(int opcion, Operaciones* objetoOperaciones) {
@@ -60,27 +69,32 @@ void menuDesarrolladorSecundario(int opcion, Operaciones* objetoOperaciones) {
         objetoOperaciones->mostrarAplicaciones();
         cout << endl;
         cout << "LISTA INVERSA:" << endl;
-        objetoOperaciones->ordenarInvesamente();
+        objetoOperaciones->invertirLista();
         break;
     }
 }
 
 int menuStaffPrincipal() {
-    system("cls");
-    int opcion = 0;
-    cout << "TIENDA DE APLICACIONES" << endl;
-    cout << "MENU COMO USUARIO STAFF:" << endl;
-    cout << "1. Buscar aplicacion" << endl;
-    cout << "Elegir opcion: "; cin >> opcion;
-    return opcion;
+    auto mostrarMenu = []() -> int {
+        system("cls");
+        int opcion = 0;
+        cout << "TIENDA DE APLICACIONES" << endl;
+        cout << "MENU COMO USUARIO STAFF:" << endl;
+        cout << "1. Buscar aplicacion" << endl;
+        cout << "Elegir opcion: "; cin >> opcion;
+        return opcion;
+    };
+    return mostrarMenu();
 }
 
 void menuStaffSecundario(int opcion, Operaciones* objetoOperaciones) {
     system("cls");
+    string nombre;
     switch (opcion) {
     case 1:
         cout << "BUSCAR APLICACION: " << endl;
-
+        cout << "Nombre de la aplicacion: "; cin >> nombre;
+        objetoOperaciones->buscarAplicacion(nombre);
         break;
     }
 }

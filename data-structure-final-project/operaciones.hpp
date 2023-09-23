@@ -1,6 +1,5 @@
 #ifndef __OPERACIONES_HPP__
 #define __OPERACIONES_HPP__
-
 #include "aplicacion.hpp"
 #include "listaEnlazada.hpp"
 #include "listaDoblementeEnlazada.hpp"
@@ -10,12 +9,12 @@
 using namespace std;
 
 class Operaciones {
+private:
 	listaEnlazada<Aplicacion*, nullptr>* objetoListaEnlazada;
 	ListaDoblementeEnlazada<Aplicacion> objetoListaDoblementeEnlazada;
 public:
 	Operaciones() {
 		objetoListaEnlazada = new listaEnlazada<Aplicacion*, nullptr>();
-
 	};
 	~Operaciones() {
 		delete objetoListaEnlazada; 
@@ -36,53 +35,6 @@ public:
 		return opcion;
 	}
 
-	void menuInternoOpciones(int opcion) {
-		system("cls");
-		switch (opcion) {
-		case 1:
-			cout << endl;
-			cout << "APLICACION INSTALADA...";
-			break;
-		case 2:
-
-			break;
-		case 3:
-
-			break;
-		case 4:
-
-			break;
-		case 5:
-
-			break;
-		case 6:
-
-			break;
-		case 7:
-
-			break;
-		}
-	}
-
-	void buscarAplicacion(string nombre) {
-		if (objetoListaDoblementeEnlazada.estaVacia()) cout << "La lista de aplicaciones esta vacia";
-		else {
-			for (int i = 0; i < objetoListaDoblementeEnlazada.tamano(); i++) {
-				if (objetoListaDoblementeEnlazada.obtenerPosicion(i).getNombre() == nombre) {
-					cout << endl;
-					cout << "DATOS ALUMNO " << i + 1 << ":" << endl;
-					cout << "Nombre: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getNombre() << endl;
-					cout << "Descripcion: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getDescripcion() << endl;
-					if (objetoListaDoblementeEnlazada.obtenerPosicion(i).getEstaDisponibleComprar() == 0)
-						cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
-					else cout << "Opcion de compra: Dispoible a $0.99" << endl;
-					int opcionMenuInterno = menuInterno();
-					menuInternoOpciones(opcionMenuInterno);
-				} else cout << "No se encontro la aplicacion, intentelo de nuevo";
-			}
-		}
-	}
-
 	void agregarAplicacion() {
 		string nombre, descripcion;
 		bool disponibleParaComprar;
@@ -95,8 +47,8 @@ public:
 		getline(cin, descripcion);
 
 		cout << "Opcion de compra:" << endl;
-		cout << "	0 - no disponible" << endl;
-		cout << "	1 - disponible" << endl;
+		cout << "* 0 - no disponible" << endl;
+		cout << "* 1 - disponible" << endl;
 		cout << "Opcion: "; cin >> disponibleParaComprar;
 
 		Aplicacion objetoAplicacion = Aplicacion(nombre, descripcion, disponibleParaComprar);
@@ -104,23 +56,95 @@ public:
 		cout << endl << "aplicacion guardada con exito...";
 	}
 
+	void mostrarAplicacion(int i) {
+		if (i >= objetoListaDoblementeEnlazada.tamano()) return;
+			cout << endl;
+			cout << "DATOS ALUMNO " << i + 1 << ":" << endl;
+			cout << "Identificador: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getIdentificador() << endl;
+			cout << "Nombre: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getNombre() << endl;
+			cout << "Descripcion: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getDescripcion() << endl;
+		if (objetoListaDoblementeEnlazada.obtenerPosicion(i).getAplicacionRegistrada() == 0) cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
+		else cout << "Opcion de compra: Dispoible a $0.99" << endl;
+
+		mostrarAplicacion(i + 1);
+	}
+
 	void mostrarAplicaciones() {
+		if (objetoListaDoblementeEnlazada.estaVacia()) {
+			cout << "La lista de aplicaciones esta vacia";
+			return;
+		}
+		mostrarAplicacion(0);
+	}
+
+	void invertirLista() {
+		for (int i = 0; i < objetoListaDoblementeEnlazada.tamano() - 1; i++) {
+			for (int j = 0; j < objetoListaDoblementeEnlazada.tamano() - i - 1; j++) {
+				if (objetoListaDoblementeEnlazada.obtenerPosicion(j).getIdentificador() > objetoListaDoblementeEnlazada.obtenerPosicion(j + 1).getIdentificador()) {
+					objetoListaDoblementeEnlazada.ordenamientoBurbuja(j);
+				}
+			}
+		}
+		mostrarAplicaciones();
+	}
+
+	void agregarComentario(string comentario) {
+	
+	}
+
+	void buscarAplicacion(string nombre) {
 		if (objetoListaDoblementeEnlazada.estaVacia()) cout << "La lista de aplicaciones esta vacia";
 		else {
 			for (int i = 0; i < objetoListaDoblementeEnlazada.tamano(); i++) {
-				cout << endl;
-				cout << "DATOS ALUMNO " << i + 1 << ":" << endl;
-				cout << "Nombre: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getNombre() << endl;
-				cout << "Descripcion: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getDescripcion() << endl;
-				if (objetoListaDoblementeEnlazada.obtenerPosicion(i).getEstaDisponibleComprar() == 0)
-					cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
-				else cout << "Opcion de compra: Dispoible a $0.99" << endl;
+				if (objetoListaDoblementeEnlazada.obtenerPosicion(i).getNombre() == nombre) {
+					cout << endl;
+					cout << "DATOS ALUMNO " << i + 1 << ":" << endl;
+					cout << "Nombre: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getNombre() << endl;
+					cout << "Descripcion: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getDescripcion() << endl;
+					if (objetoListaDoblementeEnlazada.obtenerPosicion(i).getAplicacionRegistrada() == 0)
+						cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
+					else cout << "Opcion de compra: Dispoible a $0.99" << endl;
+					int opcionMenuInterno = menuInterno();
+					menuInternoOpciones(opcionMenuInterno);
+				}
+				else cout << "No se encontro la aplicacion, intentelo de nuevo";
 			}
 		}
 	}
 
-	void ordenarInvesamente() {
-		//objetoListaDoblementeEnlazada.shellSort();
+	void menuInternoOpciones(int opcion) {
+		system("cls");
+		switch (opcion) {
+		case 1:
+			cout << endl;
+
+			cout << "APLICACION INSTALADA...";
+			break;
+		case 2:
+
+			break;
+		case 3:
+
+			break;
+		case 4:
+
+			break;
+		case 5:
+		{
+			string comentario = "";
+			cout << "Ingresa tu comentario: " << endl;
+			cin.ignore();
+			getline(cin, comentario);
+			agregarComentario(comentario);
+		}
+			break;
+		case 6:
+
+			break;
+		case 7:
+
+			break;
+		}
 	}
 };
 
