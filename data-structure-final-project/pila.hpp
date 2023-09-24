@@ -13,9 +13,29 @@ public:
     Pila() : tope(NULL), longitud(0) {} // Inicializa longitud a 0
 
     void push(T v) {
-        if (estaVacia()) tope = new Nodo<T>(v);
-        else tope = new Nodo<T>(v, tope);
-        longitud++; // Incrementa longitud cuando añades un nodo
+        // Lambda para comprobar si la pila está vacía
+        auto estaVacia = [this]() -> bool {
+            return tope == nullptr;
+            };
+
+        // Lambda para añadir un elemento al tope de una pila vacía
+        auto pushEnPilaVacia = [this, &v]() {
+            tope = new Nodo<T>(v);
+            };
+
+        // Lambda para añadir un elemento al tope de una pila no vacía
+        auto pushEnPilaNoVacia = [this, &v]() {
+            tope = new Nodo<T>(v, tope);
+            };
+
+        if (estaVacia()) {
+            pushEnPilaVacia();
+        }
+        else {
+            pushEnPilaNoVacia();
+        }
+
+        longitud++;  // Incrementa la longitud al añadir un nodo
     }
 
     T pop() {

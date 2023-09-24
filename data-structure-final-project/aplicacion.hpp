@@ -6,44 +6,31 @@
 using namespace std;
 
 class Aplicacion {
-    string nombre, descripcion, comentarios;
+    string nombre, descripcion, comentario;
     int calificacion, numeroDescargas, identificador;
-    bool aplicacionRegistrada;
+    bool disponibleParaComprar;
 public:
-    Aplicacion() {
-        this->nombre = "";
-        this->descripcion = "";
-        this->comentarios = "";
-        this->calificacion = 0;
-        this->numeroDescargas = 0;
-        this->identificador = 0;
-        this->aplicacionRegistrada = 0;
-    }
-    Aplicacion(string nombre, string descripcion, bool aplicacionRegistrada) {
+    Aplicacion(string nombre, string descripcion, bool disponibleParaComprar) {
         this->nombre = nombre;
         this->descripcion = descripcion;
-        this->aplicacionRegistrada = aplicacionRegistrada;
+        this->disponibleParaComprar = disponibleParaComprar;
         this->identificador = 1 + rand() % 10;
-    }
-    Aplicacion(string nombre, string descripcion, string comentarios, int calificacion, int numeroDescargas, bool aplicacionRegistrada) {
-        this->nombre = nombre;
-        this->descripcion = descripcion;
-        this->comentarios = comentarios;
-        this->calificacion = calificacion;
-        this->numeroDescargas = numeroDescargas;
-        this->aplicacionRegistrada = aplicacionRegistrada;
+        this->comentario = "Sin comentarios";
+        this->calificacion = 0;
     }
     ~Aplicacion() {};
 
     string getNombre() { return nombre; };
     string getDescripcion() { return descripcion; };
-    string getComentarios() { return comentarios; };
+    string getComentarios() { return comentario; };
     int getCalificacion() { return calificacion; };
     int getNumeroDescargas() { return numeroDescargas; };
     int getIdentificador() { return identificador; };
-    bool getAplicacionRegistrada() { return aplicacionRegistrada; };
+    bool getAplicacionDisponibleComprar() { return disponibleParaComprar; };
 
-    void setAplicacionRegistrada(bool valor) { this->aplicacionRegistrada = valor; };
+    void setComentario(string comentarios) { this->comentario = comentarios; };
+    void setCalificacion(int calificacion) { this->calificacion = calificacion; };
+    void setAplicacionDisponibleComprar(bool valor) { this->disponibleParaComprar = valor; };
 };
 
 #endif

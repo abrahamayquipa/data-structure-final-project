@@ -48,8 +48,6 @@ int menuDesarrolladorPrincipal() {
     return mostrarMenu();
 }
 
-
-
 void menuDesarrolladorSecundario(int opcion, Operaciones* objetoOperaciones) {
     system("cls");
     string nombre;
@@ -68,18 +66,13 @@ void menuDesarrolladorSecundario(int opcion, Operaciones* objetoOperaciones) {
         objetoOperaciones->mostrarAplicaciones();
         break;
     case 4:
-        cout << "ORDENAR INVERSAMENTE:" << endl;
-        cout << "LISTA ORIGINAL:" << endl;
-        objetoOperaciones->mostrarAplicaciones();
-        cout << endl;
-        cout << "LISTA INVERSA:" << endl;
-        objetoOperaciones->invertirLista();
+        objetoOperaciones->menuInternoOpciones(5, 0);
         break;
     case 5:
-        objetoOperaciones->menuInternoOpciones(8, 0);
+        objetoOperaciones->menuInternoOpciones(6, 0);
         break;
     case 6: 
-        objetoOperaciones->menuInternoOpciones(9, 0);
+        objetoOperaciones->menuInternoOpciones(7, 0);
         break;
     }
 }
