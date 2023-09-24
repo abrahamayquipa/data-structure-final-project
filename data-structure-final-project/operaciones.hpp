@@ -3,6 +3,8 @@
 #include "aplicacion.hpp"
 #include "listaEnlazada.hpp"
 #include "listaDoblementeEnlazada.hpp"
+#include "pila.hpp"
+#include "cola.hpp"
 #include "menu.hpp"
 #include <iostream>
 #include <string>
@@ -12,12 +14,16 @@ class Operaciones {
 private:
 	listaEnlazada<Aplicacion*, nullptr>* objetoListaEnlazada;
 	ListaDoblementeEnlazada<Aplicacion> objetoListaDoblementeEnlazada;
+	Pila<Aplicacion*>* pila;
+	Cola<Aplicacion*>* cola;
 public:
 	Operaciones() {
 		objetoListaEnlazada = new listaEnlazada<Aplicacion*, nullptr>();
+		pila = new Pila<Aplicacion*>();
+		cola = new Cola<Aplicacion*>();
 	};
 	~Operaciones() {
-		delete objetoListaEnlazada; 
+		delete objetoListaEnlazada;
 	};
 
 	int menuInterno() {
@@ -88,40 +94,52 @@ public:
 		mostrarAplicaciones();
 	}
 
-	void agregarComentario(string comentario) {
-	
-	}
-
 	void buscarAplicacion(string nombre) {
 		if (objetoListaDoblementeEnlazada.estaVacia()) cout << "La lista de aplicaciones esta vacia";
 		else {
 			for (int i = 0; i < objetoListaDoblementeEnlazada.tamano(); i++) {
 				if (objetoListaDoblementeEnlazada.obtenerPosicion(i).getNombre() == nombre) {
 					cout << endl;
-					cout << "DATOS ALUMNO " << i + 1 << ":" << endl;
+					cout << "DATOS DE LA APLICACION " << i + 1 << ":" << endl;
 					cout << "Nombre: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getNombre() << endl;
 					cout << "Descripcion: " << objetoListaDoblementeEnlazada.obtenerPosicion(i).getDescripcion() << endl;
 					if (objetoListaDoblementeEnlazada.obtenerPosicion(i).getAplicacionRegistrada() == 0)
 						cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
 					else cout << "Opcion de compra: Dispoible a $0.99" << endl;
 					int opcionMenuInterno = menuInterno();
-					menuInternoOpciones(opcionMenuInterno);
+					menuInternoOpciones(opcionMenuInterno, i);
 				}
 				else cout << "No se encontro la aplicacion, intentelo de nuevo";
 			}
 		}
 	}
 
-	void menuInternoOpciones(int opcion) {
+
+	/*
+	cout << "OPCIONES EXTRAS:" << endl;
+		cout << "1. Instalar aplicacion" << endl;
+		cout << "2. Desinstalar aplicacion" << endl;
+		cout << "3. Comprar aplicacion" << endl;
+		cout << "4. Calificar aplicacion" << endl;
+		cout << "5. Comentar aplicacion" << endl;
+		cout << "6. Ver informacion de aplicacion" << endl;
+		cout << "7. Denunciar aplicacion" << endl;
+		cout << "Elegir opcion: "; cin >> opcion;
+	*/
+
+	void menuInternoOpciones(int opcion, int posicion) {
 		system("cls");
 		switch (opcion) {
 		case 1:
 			cout << endl;
-
+			pila->push(new Aplicacion(objetoListaDoblementeEnlazada.obtenerPosicion(posicion)));
+			cola->enqueue(new Aplicacion(objetoListaDoblementeEnlazada.obtenerPosicion(posicion)));
 			cout << "APLICACION INSTALADA...";
 			break;
 		case 2:
-
+			cout << endl;
+			pila->pop();
+			cout << "APLICACION DESINSTALADA...";
 			break;
 		case 3:
 
@@ -130,19 +148,25 @@ public:
 
 			break;
 		case 5:
-		{
-			string comentario = "";
-			cout << "Ingresa tu comentario: " << endl;
-			cin.ignore();
-			getline(cin, comentario);
-			agregarComentario(comentario);
-		}
+
 			break;
 		case 6:
 
 			break;
 		case 7:
 
+			break;
+		case 8:
+			cout << "APLICACIONES INSTALADAS ACTUALMENTE:" << endl;
+			for (int i = 0; i < pila->getLongitud(); i++) {
+				cout << "Aplicacion " << i + 1 << pila->getNodeAtPosition(i)->dato->getNombre() << endl;
+			}
+			break;
+		case 9:
+			cout << "APLICACIONES INSTALADAS ACTUALMENTE:" << endl;
+			for (int i = 0; i < cola->getLongitud(); i++) {
+				cout << "Aplicacion " << i + 1 << cola->getNodoEnPosicion(i)->dato->getNombre() << endl;
+			}
 			break;
 		}
 	}

@@ -1,6 +1,6 @@
 #ifndef __MENU_HPP__
 #define __MENU_HPP__
-
+#include "listaEnlazada.hpp"
 #include "operaciones.hpp"
 #include <iostream>
 using namespace std;
@@ -40,11 +40,15 @@ int menuDesarrolladorPrincipal() {
         cout << "2. Agregar aplicacion" << endl;
         cout << "3. Listar todas las aplicaciones disponibles" << endl;
         cout << "4. Ordenamiento inverso de la lista de aplicaciones disponibles" << endl;
+        cout << "5. Listar todas las aplicaciones instaladas actualmente" << endl;
+        cout << "6. Listar todas las aplicaciones instaladas anteriormente - biblioteca de descargas" << endl;
         cout << "Elegir opcion: "; cin >> opcion;
         return opcion;
     };
     return mostrarMenu();
 }
+
+
 
 void menuDesarrolladorSecundario(int opcion, Operaciones* objetoOperaciones) {
     system("cls");
@@ -70,6 +74,12 @@ void menuDesarrolladorSecundario(int opcion, Operaciones* objetoOperaciones) {
         cout << endl;
         cout << "LISTA INVERSA:" << endl;
         objetoOperaciones->invertirLista();
+        break;
+    case 5:
+        objetoOperaciones->menuInternoOpciones(8, 0);
+        break;
+    case 6: 
+        objetoOperaciones->menuInternoOpciones(9, 0);
         break;
     }
 }

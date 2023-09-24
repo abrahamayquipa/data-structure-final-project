@@ -32,6 +32,6 @@ C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\li
               _Fx=listaEnlazada<Aplicacion *,0x0>::{ctor}::<lambda_1_>
           ]
 C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\listaEnlazada.hpp(16,5): message : while compiling class template member function 'listaEnlazada<Aplicacion *,0x0>::listaEnlazada(void)'
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(17,23): message : see the first reference to 'listaEnlazada<Aplicacion *,0x0>::listaEnlazada' in 'Operaciones::Operaciones'
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(17,29): message : see reference to class template instantiation 'listaEnlazada<Aplicacion *,0x0>' being compiled
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(21,23): message : see the first reference to 'listaEnlazada<Aplicacion *,0x0>::listaEnlazada' in 'Operaciones::Operaciones'
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(21,29): message : see reference to class template instantiation 'listaEnlazada<Aplicacion *,0x0>' being compiled
   data-structure-final-project.vcxproj -> C:\Users\PC\Desktop\data-structure-final-project\x64\Debug\data-structure-final-project.exe
