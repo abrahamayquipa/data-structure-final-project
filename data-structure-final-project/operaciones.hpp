@@ -1,7 +1,6 @@
 #ifndef __OPERACIONES_HPP__
 #define __OPERACIONES_HPP__
 #include "aplicacion.hpp"
-#include "listaEnlazada.hpp"
 #include "listaDoblementeEnlazada.hpp"
 #include "pila.hpp"
 #include "cola.hpp"
@@ -12,86 +11,111 @@ using namespace std;
 
 class Operaciones {
 private:
-	listaEnlazada<Aplicacion*, nullptr>* objetoListaEnlazada;
 	ListaDoblementeEnlazada<Aplicacion*>* objetoListaDoblementeEnlazada;
 	Pila<Aplicacion*>* pila;
 	Cola<Aplicacion*>* cola;
+	Usuario* objetoUsuario;
 public:
 	Operaciones() {
-		objetoListaEnlazada = new listaEnlazada<Aplicacion*, nullptr>();
 		objetoListaDoblementeEnlazada = new ListaDoblementeEnlazada<Aplicacion*>();
 		pila = new Pila<Aplicacion*>();
-		cola = new Cola<Aplicacion*>();
+		cola = new Cola<Aplicacion*>();;
+		objetoUsuario = new UsuarioRegular();
 	};
 	~Operaciones() {
-		delete objetoListaEnlazada;
 		delete objetoListaDoblementeEnlazada;
 		delete pila;
 		delete cola;
+		delete objetoUsuario;
 	};
 
 	int menuInterno() {
 		int opcion = 0;
 		cout << endl;
-		cout << "OPCIONES EXTRAS:" << endl;
-		cout << "1. Instalar aplicacion" << endl;
-		cout << "2. Desinstalar aplicacion" << endl;
-		cout << "3. Calificar aplicacion" << endl;
-		cout << "4. Comentar aplicacion" << endl;
-		cout << "Elegir opcion: "; cin >> opcion;
+		cout << "\t\t\tOPCIONES EXTRAS:" << endl;
+		cout << "\t\t\t1. Instalar aplicacion" << endl;
+		cout << "\t\t\t2. Desinstalar aplicacion" << endl;
+		cout << "\t\t\t3. Calificar aplicacion" << endl;
+		cout << "\t\t\t4. Comentar aplicacion" << endl;
+		cout << "\t\t\tElegir opcion: "; cin >> opcion;
 		return opcion;
 	}
 
+	void cambiarUsuario(int tipo) {
+		delete objetoUsuario;
+
+		switch (tipo) {
+		case 1:
+			objetoUsuario = new UsuarioRegular();
+			break;
+		case 2:
+			objetoUsuario = new UsuarioDesarrollador();
+			break;
+		case 3:
+			objetoUsuario = new UsuarioStaff();
+			break;
+		default:
+			cout << "\t\t\tTipo de usuario no valido";
+		}
+	}
+
 	void agregarAplicacion() {
-		string nombre, descripcion;
-		bool disponibleParaComprar;
+		if (objetoUsuario->getTipoUsuario() == 2 || objetoUsuario->getTipoUsuario() == 3) {
+			string nombre, descripcion;
+			bool disponibleParaComprar;
 
-		cout << "Nombre: ";
-		cin.ignore();
-		getline(cin, nombre);
+			cout << "\t\t\tNombre: ";
+			cin.ignore();
+			getline(cin, nombre);
 
-		cout << "Descripcion: ";
-		cin.ignore();
-		getline(cin, descripcion);
+			cout << "\t\t\tDescripcion: ";
+			cin.ignore();
+			getline(cin, descripcion);
 
-		cout << "Opcion de compra:" << endl;
-		cout << "* 0 - aplicacion gratuita" << endl;
-		cout << "* 1 - disponible para comprar por $0.99" << endl;
-		cout << "Opcion: "; cin >> disponibleParaComprar;
+			cout << "\t\t\tOpcion de compra:" << endl;
+			cout << "\t\t\t\t* 0 - aplicacion gratuita" << endl;
+			cout << "\t\t\t\t* 1 - disponible para comprar por $0.99" << endl;
+			cout << "\t\t\tOpcion: "; cin >> disponibleParaComprar;
 
-		Aplicacion* objetoAplicacion = new Aplicacion(nombre, descripcion, disponibleParaComprar);
-		objetoListaDoblementeEnlazada->insertarFinal(objetoAplicacion);
-		cout << endl << "aplicacion guardada con exito...";
+			Aplicacion* objetoAplicacion = new Aplicacion(nombre, descripcion, disponibleParaComprar);
+			objetoListaDoblementeEnlazada->insertarFinal(objetoAplicacion);
+			cout << endl << "\t\t\taplicacion guardada con exito...";
+		}
+		else cout << "\t\t\tOpcion solo disponible para desarrolladores o staff de la app";
 	}
 
 	void mostrarAplicacion(int i) {
-		if (i >= objetoListaDoblementeEnlazada->tamano()) return;
-			cout << endl;
-			cout << "DATOS ALUMNO " << i + 1 << ":" << endl;
-			cout << "Identificador: #" << objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getIdentificador() << endl;
-			cout << "Nombre: " << objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getNombre() << endl;
-			cout << "Descripcion: " << objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getDescripcion() << endl;
+		if (i >= objetoListaDoblementeEnlazada->getLongitud()) return;
+		cout << endl;
+		cout << "\t\t\tDATOS DE LA APLICACION " << i + 1 << ":" << endl;
+		cout << "\t\t\tIdentificador: #" << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getIdentificador() << endl;
+		cout << "\t\t\tNombre: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() << endl;
+		cout << "\t\t\tDescripcion: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getDescripcion() << endl;
 
-			if (objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getAplicacionDisponibleComprar() == 0) cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
-			else cout << "Opcion de compra: Dispoible a $0.99" << endl;
+		if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getAplicacionDisponibleComprar() == 0) 
+			cout << "\t\t\tOpcion de compra: No dispoible, unicamente descarga" << endl;
+		else 
+			cout << "\t\t\tOpcion de compra: Dispoible a $0.99" << endl;
 
-			cout << "Comentario: " << objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getComentarios() << endl;
-			cout << "Calificacion: " << objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getCalificacion() << " estrellas" << endl;
+		cout << "\t\t\tComentario: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getComentarios() << endl;
+		cout << "\t\t\tCalificacion: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getCalificacion() << " estrellas" << endl;
 		mostrarAplicacion(i + 1);
 	}
 
 	void mostrarAplicaciones() {
 		if (objetoListaDoblementeEnlazada->estaVacia()) {
-			cout << "La lista de aplicaciones esta vacia";
+			cout << "\t\t\tLa lista de aplicaciones esta vacia";
 			return;
 		}
 		mostrarAplicacion(0);
 	}
 
-	void invertirLista() {
-		for (int i = 0; i < objetoListaDoblementeEnlazada->tamano() - 1; i++) {
-			for (int j = 0; j < objetoListaDoblementeEnlazada->tamano() - i - 1; j++) {
-				if (objetoListaDoblementeEnlazada->obtenerPosicion(j)->dato->getIdentificador() > objetoListaDoblementeEnlazada->obtenerPosicion(j + 1)->dato->getIdentificador()) {
+	void odernarAscendentemente() {
+		for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud() - 1; i++) {
+			for (int j = 0; j < objetoListaDoblementeEnlazada->getLongitud() - i - 1; j++) {
+				if (objetoListaDoblementeEnlazada->getNodoEnPosicion(j)->valor->getIdentificador() > 
+					objetoListaDoblementeEnlazada->getNodoEnPosicion(j + 1)->valor->getIdentificador()) {
+
 					objetoListaDoblementeEnlazada->ordenamientoBurbuja(j);
 				}
 			}
@@ -102,17 +126,17 @@ public:
 	void buscarAplicacion(string nombre) {
 		if (objetoListaDoblementeEnlazada->estaVacia()) {
 			system("cls");
-			cout << "La lista de aplicaciones esta vacia"; 
+			cout << "\n\n\n\t\t\tLa lista de aplicaciones esta vacia o ingresaste mal el nombre"; 
 		} else {
-			for (int i = 0; i < objetoListaDoblementeEnlazada->tamano(); i++) {
-				if (objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getNombre() == nombre) {
+			for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {
+				if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() == nombre) {
 					cout << endl;
-					cout << "DATOS DE LA APLICACION " << i + 1 << ":" << endl;
-					cout << "Nombre: " << objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getNombre() << endl;
-					cout << "Descripcion: " << objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getDescripcion() << endl;
-					if (objetoListaDoblementeEnlazada->obtenerPosicion(i)->dato->getAplicacionDisponibleComprar() == 0)
-						cout << "Opcion de compra: No dispoible, unicamente descarga" << endl;
-					else cout << "Opcion de compra: Dispoible a $0.99" << endl;
+					cout << "\t\t\t*Coincidencias en la posicion " << i + 1 << "*" << endl;
+					cout << "\t\t\tNombre: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() << endl;
+					cout << "\t\t\tDescripcion: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getDescripcion() << endl;
+					if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getAplicacionDisponibleComprar() == 0)
+						cout << "\t\t\tOpcion de compra: No dispoible, unicamente descarga" << endl;
+					else cout << "\t\t\tOpcion de compra: Dispoible a $0.99" << endl;
 					int opcionMenuInterno = menuInterno();
 					menuInternoOpciones(opcionMenuInterno, i);
 				}
@@ -125,59 +149,74 @@ public:
 		switch (opcion) {
 		case 1:
 			cout << endl;
-			pila->push(new Aplicacion(*objetoListaDoblementeEnlazada->obtenerPosicion(posicion)->dato));
-			cola->enqueue(new Aplicacion(*objetoListaDoblementeEnlazada->obtenerPosicion(posicion)->dato));
-			cout << "APLICACION INSTALADA...";
+			cola->enqueue(new Aplicacion(*objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor));
+			pila->insertarFinal(new Aplicacion(*objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor));
+			cout << "\n\n\n\n\t\t\tAPLICACION INSTALADA...";
 			break;
 		case 2:
-			cout << endl;
-			pila->pop();
-			cout << "APLICACION DESINSTALADA...";
+			if (!cola->estaVacia()) {
+				cout << endl;
+				cola->dequeue();
+				cout << "\n\n\n\n\t\t\tAPLICACION DESINSTALADA...";
+			}
+			else cout << "\n\n\n\n\t\t\tNo puedes desinstalar una aplicacion que no instalaste antes" << endl;
 			break;
 		case 3:
 		{
 			int calificacion;
-			cout << "Ingrese tu calificacion(1-5 estrellas): ";
+			cout << "\n\n\n\n\t\t\tIngrese tu calificacion(1-5 estrellas): ";
 			cin >> calificacion;
-			objetoListaDoblementeEnlazada->obtenerPosicion(posicion)->dato->setCalificacion(calificacion);
+			objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor->setCalificacion(calificacion);
 			break;
 		}
 		case 4:
 		{
 			string comentario;
-			cout << "Ingrese tu comentario: ";
+			cout << "\n\n\n\n\t\t\tIngrese tu comentario: ";
 			cin.ignore();
 			getline(cin, comentario);
-			objetoListaDoblementeEnlazada->obtenerPosicion(posicion)->dato->setComentario(comentario);
+			objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor->setComentario(comentario);
 			break;
 		}
 		case 5:
-			cout << "ORDENAR INVERSAMENTE:" << endl;
-			if (objetoListaDoblementeEnlazada->estaVacia() == 0) {
-				cout << "LISTA ORIGINAL:" << endl;
+			cout << "\n\n\n\n\t\t\tORDENAR ASCENDENTEMENTE:" << endl;
+			if (objetoListaDoblementeEnlazada->estaVacia()) cout << "\t\t\tOrdenamiento imposible, la tieda no tiene aplicaciones";
+			else {
+				cout << "\t\t\tLISTA ORIGINAL:" << endl;
 				mostrarAplicaciones();
 				cout << endl;
-				cout << "LISTA INVERSA:" << endl;
-				invertirLista();
+				cout << "\t\t\tLISTA ASCENDENTE:" << endl;
+				odernarAscendentemente();
 			}
-			else cout << "No se puede ordenar las aplicaciones, puesto a que no hay ninguna registrada en la tienda";
 			break;
 		case 6:
-			cout << "APLICACIONES INSTALADAS ACTUALMENTE:" << endl;
-			if (pila->estaVacia() == 0) {
-				for (int i = 0; i < pila->getLongitud(); i++)
-					cout << "Aplicacion " << i + 1 << ": " << pila->getNodeAtPosition(i)->dato->getNombre() << endl;
+			cout << "\n\n\n\n\t\t\tAPLICACIONES INSTALADAS ACTUALMENTE:" << endl;
+			if (cola->estaVacia()) cout << "\t\t\tNo hay aplicaciones instaladas ahora mismo";
+			else {
+				for (int i = 0; i < cola->getLongitud(); i++)
+					cout << "\t\t\tAplicacion " << i + 1 << ": " << cola->getNodoEnPosicion(i)->valor->getNombre() << endl;
 			}
-			else cout << "No hay aplicaciones instaladas";
 			break;
 		case 7:
-			cout << "APLICACIONES INSTALADAS ACTUALMENTE:" << endl;
-			if (cola->esVacia() == 0) {
-				for (int i = 0; i < cola->getLongitud(); i++)
-					cout << "Aplicacion " << i + 1 << ": " << pila->getNodeAtPosition(i)->dato->getNombre() << endl;
+			cout << "\n\n\n\n\t\t\tAPLICACIONES INSTALADAS ANTERIORMENTE:" << endl;
+			if (pila->estaVacia()) cout << "\t\t\tHistorial vacio";
+			else {
+				for (int i = 0; i < pila->getLongitud(); i++)
+					cout << "\t\t\tAplicacion " << i + 1 << ": " << pila->getNodoEnPosicion(i)->valor->getNombre() << endl;
 			}
-			else cout << "No hay aplicaciones instaladas";
 			break;
+		case 8:
+		{
+			int tipo;
+			cout << "\n\n\n\n\t\t\tCAMBIAR TIPO DE USUARIO:" << endl << endl;
+			cout << "\t\t\tSeleccione tipo de usuario:" << endl;
+			cout << "\t\t\t1. Regular" << endl;
+			cout << "\t\t\t2. Desarrollador" << endl;
+			cout << "\t\t\t3. Staff" << endl;
+			cout << "\t\t\tOpcion: "; cin >> tipo;
+			cambiarUsuario(tipo);
+			break;
+		}
 		};
 	}
 };

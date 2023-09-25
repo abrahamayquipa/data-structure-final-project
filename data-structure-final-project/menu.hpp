@@ -1,68 +1,70 @@
 #ifndef __MENU_HPP__
 #define __MENU_HPP__
-#include "listaEnlazada.hpp"
+//biblioteca que permite el manipular la consola
+#include <windows.h>
+
 #include "operaciones.hpp"
 #include <iostream>
 using namespace std;
 
-int menuRegularPrincipal() {
+/*
+* Fuente 1:
+* Generador de ASCII ART: https://es.rakko.tools/tools/68/
+* Fuente 2:
+* Poner colores a la consola: https://github.com/abrahamayquipa/programming-I-final-project/blob/main/main.cpp
+*/
+
+HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+
+int menuPrincipal() {
     auto mostrarMenu = []() -> int {
         system("cls");
+        SetConsoleTextAttribute(color, 11);
         int opcion = 0;
-        cout << "TIENDA DE APLICACIONES" << endl;
-        cout << "MENU COMO USUARIO REGULAR:" << endl;
-        cout << "1. Buscar aplicacion" << endl;
-        cout << "Elegir opcion: "; cin >> opcion;
+        cout << "\n\n\n\n";
+        cout << "\t\t\t\t********************************************************************" << endl;
+        cout << "\t\t\t      ::::::::   :::::::::::           :::        :::::::::       ::::::::" << endl;
+        cout << "\t\t\t    :+:    :+:      :+:             :+: :+:      :+:    :+:     :+:    :+:" << endl;
+        cout << "\t\t\t   +:+             +:+            +:+   +:+     +:+    +:+     +:+" << endl;
+        cout << "\t\t\t  +#++:++#++      +#+           +#++:++#++:    +#++:++#:      +#++:++#++" << endl;
+        cout << "\t\t\t        +#+      +#+           +#+     +#+    +#+    +#+            +#+" << endl;
+        cout << "\t\t\t#+#    #+#      #+#           #+#     #+#    #+#    #+#     #+#    #+#" << endl;
+        cout << "\t\t\t########       ###           ###     ###    ###    ###      ########" << endl;
+        cout << "\t\t\t*********************************STORE********************************" << endl;
+        SetConsoleTextAttribute(color, 15);
+        cout << "\n\t\t\t\t\t\tMENU DE OPCIONES" << endl << endl;
+        cout << "\t\t\t1. Buscar aplicacion" << endl;
+        cout << "\t\t\t2. Agregar aplicacion" << endl;
+        cout << "\t\t\t3. Listar todas las aplicaciones disponibles" << endl;
+        cout << "\t\t\t4. Ordenamiento ascendente la lista de aplicaciones disponibles" << endl;
+        cout << "\t\t\t5. Listar todas las aplicaciones instaladas actualmente" << endl;
+        cout << "\t\t\t6. Listar todas las aplicaciones instaladas anteriormente - biblioteca de descargas" << endl;
+        cout << endl << "\t\t\tOPCION EXTRA:" << endl;
+        cout << "\t\t\t7. Cambiar tipo de usuario" << endl << endl;
+        cout << "\t\t\tElegir opcion: "; cin >> opcion;
         return opcion;
     };
     return mostrarMenu();
 }
 
-void menuRegularSecundario(int opcion, Operaciones* objetoOperaciones) {
-    system("cls");
+void menuSecundario(Operaciones* objetoOperaciones) {
     string nombre;
+    int opcion = menuPrincipal();
+
+    system("cls");
     switch (opcion) {
     case 1:
-        cout << "BUSCAR APLICACION: " << endl;
-        cout << "Nombre de la aplicacion: "; cin >> nombre;
-        objetoOperaciones->buscarAplicacion(nombre);
-        break;
-    }
-}
-
-int menuDesarrolladorPrincipal() {
-    auto mostrarMenu = []() -> int {
-        system("cls");
-        int opcion = 0;
-        cout << "TIENDA DE APLICACIONES" << endl;
-        cout << "MENU COMO USUARIO DESARROLLADOR:" << endl;
-        cout << "1. Buscar aplicacion" << endl;
-        cout << "2. Agregar aplicacion" << endl;
-        cout << "3. Listar todas las aplicaciones disponibles" << endl;
-        cout << "4. Ordenamiento inverso de la lista de aplicaciones disponibles" << endl;
-        cout << "5. Listar todas las aplicaciones instaladas actualmente" << endl;
-        cout << "6. Listar todas las aplicaciones instaladas anteriormente - biblioteca de descargas" << endl;
-        cout << "Elegir opcion: "; cin >> opcion;
-        return opcion;
-    };
-    return mostrarMenu();
-}
-
-void menuDesarrolladorSecundario(int opcion, Operaciones* objetoOperaciones) {
-    system("cls");
-    string nombre;
-    switch (opcion) {
-    case 1:
-        cout << "BUSCAR APLICACION: " << endl;
-        cout << "Nombre de la aplicacion: "; cin >> nombre;
+        cout << "\n\n\n\n\t\t\tBUSCAR APLICACION: " << endl;
+        cout << "\t\t\tNombre de la aplicacion: "; cin >> nombre;
+        cout << endl;
         objetoOperaciones->buscarAplicacion(nombre);
         break;
     case 2: 
-        cout << "AGREGAR APLICACION: " << endl;
+        cout << "\n\n\n\n\t\t\tAGREGAR APLICACION: " << endl;
         objetoOperaciones->agregarAplicacion();
         break;
     case 3:
-        cout << "LISTA:" << endl;
+        cout << "\n\n\n\n\t\t\tLISTA:" << endl;
         objetoOperaciones->mostrarAplicaciones();
         break;
     case 4:
@@ -74,30 +76,8 @@ void menuDesarrolladorSecundario(int opcion, Operaciones* objetoOperaciones) {
     case 6: 
         objetoOperaciones->menuInternoOpciones(7, 0);
         break;
-    }
-}
-
-int menuStaffPrincipal() {
-    auto mostrarMenu = []() -> int {
-        system("cls");
-        int opcion = 0;
-        cout << "TIENDA DE APLICACIONES" << endl;
-        cout << "MENU COMO USUARIO STAFF:" << endl;
-        cout << "1. Buscar aplicacion" << endl;
-        cout << "Elegir opcion: "; cin >> opcion;
-        return opcion;
-    };
-    return mostrarMenu();
-}
-
-void menuStaffSecundario(int opcion, Operaciones* objetoOperaciones) {
-    system("cls");
-    string nombre;
-    switch (opcion) {
-    case 1:
-        cout << "BUSCAR APLICACION: " << endl;
-        cout << "Nombre de la aplicacion: "; cin >> nombre;
-        objetoOperaciones->buscarAplicacion(nombre);
+    case 7: 
+        objetoOperaciones->menuInternoOpciones(8, 0);
         break;
     }
 }

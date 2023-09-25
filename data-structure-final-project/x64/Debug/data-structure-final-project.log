@@ -1,37 +1,3 @@
 ﻿  data-structure-final-project.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\functional(841,31): warning C4244: 'return': conversion from '__int64' to '_Rx', possible loss of data
-          with
-          [
-              _Rx=int
-          ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\functional(837,9): message : while compiling class template member function '_Rx std::_Func_impl_no_alloc<listaEnlazada<Aplicacion *,0x0>::{ctor}::<lambda_1_>,_Rx,T,T>::_Do_call(T &&,T &&)'
-          with
-          [
-              _Rx=int,
-              T=Aplicacion *
-          ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\functional(731,13): message : see reference to class template instantiation 'std::_Func_impl_no_alloc<listaEnlazada<Aplicacion *,0x0>::{ctor}::<lambda_1_>,_Ret,T,T>' being compiled
-          with
-          [
-              _Ret=int,
-              T=Aplicacion *
-          ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\functional(925,23): message : see reference to variable template 'const bool _Is_large<std::_Func_impl_no_alloc<`listaEnlazada<Aplicacion *,0>::listaEnlazada<Aplicacion *,0>'::`1'::<lambda_1_>,int,Aplicacion *,Aplicacion *> >' being compiled
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\functional(1052,13): message : see reference to function template instantiation 'void std::_Func_class<_Ret,T,T>::_Reset<_Ty>(_Fx &&)' being compiled
-          with
-          [
-              _Ret=int,
-              T=Aplicacion *,
-              _Ty=listaEnlazada<Aplicacion *,0x0>::{ctor}::<lambda_1_>,
-              _Fx=listaEnlazada<Aplicacion *,0x0>::{ctor}::<lambda_1_>
-          ]
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\listaEnlazada.hpp(16,82): message : see reference to function template instantiation 'std::function<int (T,T)>::function<listaEnlazada<T,0x0>::{ctor}::<lambda_1_>,0>(_Fx &&)' being compiled
-          with
-          [
-              T=Aplicacion *,
-              _Fx=listaEnlazada<Aplicacion *,0x0>::{ctor}::<lambda_1_>
-          ]
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\listaEnlazada.hpp(16,5): message : while compiling class template member function 'listaEnlazada<Aplicacion *,0x0>::listaEnlazada(void)'
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(21,23): message : see the first reference to 'listaEnlazada<Aplicacion *,0x0>::listaEnlazada' in 'Operaciones::Operaciones'
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\operaciones.hpp(21,29): message : see reference to class template instantiation 'listaEnlazada<Aplicacion *,0x0>' being compiled
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\data-structure-final-project.cpp(17,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   data-structure-final-project.vcxproj -> C:\Users\PC\Desktop\data-structure-final-project\x64\Debug\data-structure-final-project.exe

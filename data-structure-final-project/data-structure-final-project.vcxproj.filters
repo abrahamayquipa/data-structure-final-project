@@ -44,9 +44,6 @@
     <ClInclude Include="listaDoblementeEnlazada.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="listaEnlazada.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="pila.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

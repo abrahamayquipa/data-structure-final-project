@@ -1,37 +1,44 @@
-#ifndef __COLA_H__
-#define __COLA_H__
+#ifndef __COLA_HPP__
+#define __COLA_HPP__
+
 #include "nodo.hpp"
 #include <iostream>
-
 using namespace std;
 
+/*
+* Fuente 1: parte del codigo subido al aula virtual - semana 5
+* https://aulavirtual.upc.edu.pe/ultra/courses/_390567_1/cl/outline
+* 
+* Fuente 1: parte del codigo subido al aula virtual - semana 4
+* https://aulavirtual.upc.edu.pe/ultra/courses/_390567_1/cl/outline
+*/
 template<class T>
 class Cola {
 private:
 	Nodo<T>* inicio;
 	Nodo<T>* fin;
-	int longitud;  // Variable para mantener la longitud de la cola
+	size_t longitud;
 
 public:
-	Cola() : inicio(NULL), fin(NULL), longitud(0) {}  // Inicializamos longitud a 0
+	Cola() : inicio(NULL), fin(NULL), longitud(0) {}
 
-	void enqueue(T v) {
-		Nodo<T>* nodo = new Nodo<T>(v);
-		if (esVacia()) {
-			inicio = nodo;
+	void enqueue(T valor) {
+		Nodo<T>* nuevoNodo = new Nodo<T>(valor);
+		if (estaVacia()) {
+			inicio = nuevoNodo;
 			fin = inicio;
 		}
 		else {
-			fin->siguiente = nodo;
-			fin = nodo;
+			fin->siguiente = nuevoNodo;
+			fin = nuevoNodo;
 		}
-		longitud++;  // Incrementa la longitud cuando añades un nodo
-		nodo = NULL;
+		longitud++;
+		nuevoNodo = NULL;
 	}
 
 	T dequeue() {
-		if (esVacia()) return NULL;
-		T dato = inicio->dato;
+		if (estaVacia()) return NULL;
+		T dato = inicio->valor;
 
 		if (inicio == fin) {
 			delete inicio;
@@ -39,39 +46,29 @@ public:
 			fin = NULL;
 		}
 		else {
-			Nodo* aux = inicio;
+			Nodo<T>* aux = inicio;
 			inicio = inicio->siguiente;
 			delete aux;
 		}
-		longitud--;  // Decrementa la longitud cuando eliminas un nodo
+		longitud--;
 		return dato;
 	}
 
-	bool esVacia() {
-		return this->longitud == 0;
-	}
+	bool estaVacia() { return this->longitud == 0; }
+	size_t getLongitud() { return longitud; }
 
-	int getLongitud() const {  // Método para obtener la longitud actual
-		return longitud;
-	}
-
-	Nodo<T>* getNodoEnPosicion(int pos) {
-		if (pos < 0 || esVacia()) {
-			throw "Posición inválida o cola vacía";  // puedes usar return NULL en lugar de lanzar una excepción si lo prefieres
-		}
+	Nodo<T>* getNodoEnPosicion(int posicion) {
+		if (posicion < 0 || estaVacia()) throw "Posición inválida o cola vacía";
 
 		int contador = 0;
 		Nodo<T>* actual = inicio;
 
 		while (actual != NULL) {
-			if (contador == pos) {
-				return actual;
-			}
+			if (contador == posicion) return actual;
 			contador++;
 			actual = actual->siguiente;
 		}
-
-		throw "Posición fuera de rango";  // puedes usar return NULL en lugar de lanzar una excepción si lo prefieres
+		throw "Posición fuera de rango";
 	}
 };
 

@@ -4,14 +4,14 @@
 template<class T>
 class Nodo {
 public:
-	T dato;
+	T valor;
 	Nodo<T>* anterior;
 	Nodo<T>* siguiente;
 
-	Nodo(T v, Nodo<T>* ant = NULL, Nodo<T>* sig = NULL) {
-		dato = v;
-		anterior = ant;
-		siguiente = sig;
+	Nodo(T valor, Nodo<T>* anterior = NULL, Nodo<T>* siguiente = NULL) {
+		this->valor = valor;
+		this->anterior = anterior;
+		this->siguiente = siguiente;
 	}
 };
 

@@ -1,77 +1,55 @@
-#ifndef __PILA_H__
-#define __PILA_H__
+#ifndef __PILA_HPP__
+#define __PILA_HPP__
 #include "nodo.hpp"
 using namespace std;
 
+/*
+* Fuente 1: parte del codigo subido al aula virtual - semana 5
+* https://aulavirtual.upc.edu.pe/ultra/courses/_390567_1/cl/outline
+*/
 template<class T>
 class Pila {
 private:
     Nodo<T>* tope;
-    int longitud; // Agrega la variable longitud
-
+    size_t longitud;
 public:
-    Pila() : tope(NULL), longitud(0) {} // Inicializa longitud a 0
+    Pila() : tope(NULL), longitud(0) {}
 
-    void push(T v) {
-        // Lambda para comprobar si la pila está vacía
+    void insertarFinal(T valor) {
         auto estaVacia = [this]() -> bool {
             return tope == nullptr;
-            };
+        };
 
-        // Lambda para añadir un elemento al tope de una pila vacía
-        auto pushEnPilaVacia = [this, &v]() {
-            tope = new Nodo<T>(v);
-            };
+        auto insertarEnPilaVacia = [this, &valor]() {
+            tope = new Nodo<T>(valor);
+        };
 
-        // Lambda para añadir un elemento al tope de una pila no vacía
-        auto pushEnPilaNoVacia = [this, &v]() {
-            tope = new Nodo<T>(v, tope);
-            };
+        auto insertarEnPilaNoVacia = [this, &valor]() {
+            tope = new Nodo<T>(valor, tope);
+        };
 
-        if (estaVacia()) {
-            pushEnPilaVacia();
-        }
-        else {
-            pushEnPilaNoVacia();
-        }
-
-        longitud++;  // Incrementa la longitud al añadir un nodo
+        if (estaVacia()) insertarEnPilaVacia();
+        else insertarEnPilaNoVacia();
+        longitud++;
     }
 
-    T pop() {
-        if (estaVacia()) return NULL;
-        else {
-            T elemento = (T)(tope->dato);
-            Nodo<T>* aux = tope;
-            tope = (Nodo<T>*) tope->siguiente;
-            delete aux;
-            longitud--; // Decrementa longitud cuando eliminas un nodo
-            return elemento;
-        }
-    }
+    bool estaVacia() { return this->longitud == 0; }
+    size_t getLongitud() { return longitud; }
 
-    bool estaVacia() {
-        return this->longitud == 0;
-    }
-
-    int getLongitud() const { // Método para obtener la longitud actual
-        return longitud;
-    }
-
-    Nodo<T>* getNodeAtPosition(int pos) {
-        if (pos < 0) {
+    Nodo<T>* getNodoEnPosicion(int posicion) {
+        if (posicion < 0) {
             throw "Posición inválida";
         }
-        Nodo<T>* temp = tope;
+        Nodo<T>* nuevoNodo = tope;
         int index = 0;
-        while (temp != NULL && index < pos) {
-            temp = temp->siguiente;
+        while (nuevoNodo != NULL && index < posicion) {
+            nuevoNodo = nuevoNodo->siguiente;
             index++;
         }
-        if (temp == NULL) {
+        if (nuevoNodo == NULL) {
             throw "Posición fuera de rango";
         }
-        return temp;  // Devuelve el puntero al nodo en lugar de temp->dato
+        return nuevoNodo;
     }
 };
 

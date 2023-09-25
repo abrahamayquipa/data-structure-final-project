@@ -1,19 +1,17 @@
-#ifndef USUARIO_H
-#define USUARIO_H
+#ifndef __USUARIO_HPP__
+#define __USUARIO_HPP__
+
 #include <iostream>
 using namespace std;
 
 class Usuario {
-    string correoElectronico, contrasena;
+private:
+    int tipoUsuario;
 public:
-    Usuario(string correoElectronico, string contrasena) {
-        this->correoElectronico = correoElectronico;
-        this->contrasena = contrasena;
-    }
-    ~Usuario() {};
+    Usuario(int tipoUsuario): tipoUsuario(tipoUsuario) {}
+    ~Usuario() {}
 
-    string getCorreoElectronico() { return correoElectronico; };
-    string getContrasena() { return contrasena; };
+    int getTipoUsuario() { return tipoUsuario; }
 };
 
-#endif
+#endif 

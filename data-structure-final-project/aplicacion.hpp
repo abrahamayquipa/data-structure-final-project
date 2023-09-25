@@ -6,28 +6,30 @@
 using namespace std;
 
 class Aplicacion {
-    string nombre, descripcion, comentario;
-    int calificacion, numeroDescargas, identificador;
+    string tipoUsuario, nombre, descripcion, comentario;
+    int calificacion, identificador;
     bool disponibleParaComprar;
 public:
     Aplicacion(string nombre, string descripcion, bool disponibleParaComprar) {
+        this->tipoUsuario = "regular";
         this->nombre = nombre;
+        this->identificador = 1 + rand() % 10;
         this->descripcion = descripcion;
         this->disponibleParaComprar = disponibleParaComprar;
-        this->identificador = 1 + rand() % 10;
         this->comentario = "Sin comentarios";
         this->calificacion = 0;
     }
     ~Aplicacion() {};
 
+    string getTipoUsario() { return tipoUsuario; };
     string getNombre() { return nombre; };
+    int getIdentificador() { return identificador; };
     string getDescripcion() { return descripcion; };
+    bool getAplicacionDisponibleComprar() { return disponibleParaComprar; };
     string getComentarios() { return comentario; };
     int getCalificacion() { return calificacion; };
-    int getNumeroDescargas() { return numeroDescargas; };
-    int getIdentificador() { return identificador; };
-    bool getAplicacionDisponibleComprar() { return disponibleParaComprar; };
 
+    void setTipoUsuario(string tipoUsuario) { this->tipoUsuario = tipoUsuario; };
     void setComentario(string comentarios) { this->comentario = comentarios; };
     void setCalificacion(int calificacion) { this->calificacion = calificacion; };
     void setAplicacionDisponibleComprar(bool valor) { this->disponibleParaComprar = valor; };
