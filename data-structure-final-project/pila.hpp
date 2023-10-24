@@ -15,7 +15,7 @@ private:
 public:
     Pila() : tope(NULL), longitud(0) {}
 
-    void insertarFinal(T valor) {
+    void insertar(T valor) {
         auto estaVacia = [this]() -> bool {
             return tope == nullptr;
         };

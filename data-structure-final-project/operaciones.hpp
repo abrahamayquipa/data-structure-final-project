@@ -1,9 +1,12 @@
 #ifndef __OPERACIONES_HPP__
 #define __OPERACIONES_HPP__
+
 #include "aplicacion.hpp"
 #include "listaDoblementeEnlazada.hpp"
 #include "pila.hpp"
 #include "cola.hpp"
+#include "hashEntidad.hpp"
+#include "hashtable.hpp"
 #include "menu.hpp"
 #include <iostream>
 #include <string>
@@ -75,7 +78,8 @@ public:
 			cout << "\t\t\tOpcion de compra:" << endl;
 			cout << "\t\t\t\t* 0 - aplicacion gratuita" << endl;
 			cout << "\t\t\t\t* 1 - disponible para comprar por $0.99" << endl;
-			cout << "\t\t\tOpcion: "; cin >> disponibleParaComprar;
+			cout << "\t\t\tOpcion: ";
+			cin >> disponibleParaComprar;
 
 			Aplicacion* objetoAplicacion = new Aplicacion(nombre, descripcion, disponibleParaComprar);
 			objetoListaDoblementeEnlazada->insertarFinal(objetoAplicacion);
@@ -126,14 +130,15 @@ public:
 	void buscarAplicacion(string nombre) {
 		if (objetoListaDoblementeEnlazada->estaVacia()) {
 			system("cls");
-			cout << "\n\n\n\t\t\tLa lista de aplicaciones esta vacia o ingresaste mal el nombre"; 
+			cout << "\n\n\n\t\t\tLa lista de aplicaciones esta vacia o ingresaste mal el nombre";
 		} else {
-			for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {
+			for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {		
 				if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() == nombre) {
-					cout << endl;
+					cout << endl; // 1
 					cout << "\t\t\t*Coincidencias en la posicion " << i + 1 << "*" << endl;
 					cout << "\t\t\tNombre: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() << endl;
 					cout << "\t\t\tDescripcion: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getDescripcion() << endl;
+
 					if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getAplicacionDisponibleComprar() == 0)
 						cout << "\t\t\tOpcion de compra: No dispoible, unicamente descarga" << endl;
 					else cout << "\t\t\tOpcion de compra: Dispoible a $0.99" << endl;
@@ -148,11 +153,13 @@ public:
 		system("cls");
 		switch (opcion) {
 		case 1:
+		{
 			cout << endl;
 			cola->enqueue(new Aplicacion(*objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor));
-			pila->insertarFinal(new Aplicacion(*objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor));
+			pila->insertar(new Aplicacion(*objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor));
 			cout << "\n\n\n\n\t\t\tAPLICACION INSTALADA...";
 			break;
+		}
 		case 2:
 			if (!cola->estaVacia()) {
 				cout << endl;
@@ -179,6 +186,7 @@ public:
 			break;
 		}
 		case 5:
+		{
 			cout << "\n\n\n\n\t\t\tORDENAR ASCENDENTEMENTE:" << endl;
 			if (objetoListaDoblementeEnlazada->estaVacia()) cout << "\t\t\tOrdenamiento imposible, la tieda no tiene aplicaciones";
 			else {
@@ -189,7 +197,9 @@ public:
 				odernarAscendentemente();
 			}
 			break;
+		}
 		case 6:
+		{
 			cout << "\n\n\n\n\t\t\tAPLICACIONES INSTALADAS ACTUALMENTE:" << endl;
 			if (cola->estaVacia()) cout << "\t\t\tNo hay aplicaciones instaladas ahora mismo";
 			else {
@@ -197,15 +207,43 @@ public:
 					cout << "\t\t\tAplicacion " << i + 1 << ": " << cola->getNodoEnPosicion(i)->valor->getNombre() << endl;
 			}
 			break;
+		}
 		case 7:
-			cout << "\n\n\n\n\t\t\tAPLICACIONES INSTALADAS ANTERIORMENTE:" << endl;
-			if (pila->estaVacia()) cout << "\t\t\tHistorial vacio";
+		{
+			//cout << "\n\n\n\n\t\t\tAPLICACIONES INSTALADAS ANTERIORMENTE:" << endl;
+			//if (pila->estaVacia()) cout << "\t\t\tHistorial vacio";
+			//else {
+			//	for (int i = 0; i < pila->getLongitud(); i++)
+			//		cout << "\t\t\tAplicacion " << i + 1 << ": " << pila->getNodoEnPosicion(i)->valor->getNombre() << endl;
+			//}
+		
+			// main.cpp (Suponiendo que este es otro archivo)
+
+			HashTable<int, string> hashtableObjeto;
+			hashtableObjeto.insertar(1, "one");
+			hashtableObjeto.insertar(11, "eleven");
+			hashtableObjeto.insertar(21, "twenty-one");
+
+			cout << *hashtableObjeto.buscar(1) << endl; 
+			cout << *hashtableObjeto.buscar(11) << endl;
+			cout << *hashtableObjeto.buscar(21) << endl;
+			break;
+		}
+		case 8:
+		{
+			cout << "\n\n\n\n\t\t\tORDENAR MEDIANTE QUICKSELCT:" << endl;
+			if (objetoListaDoblementeEnlazada->estaVacia())
+				cout << "\t\t\tOrdenamiento imposible, la tieda no tiene aplicaciones";
 			else {
-				for (int i = 0; i < pila->getLongitud(); i++)
-					cout << "\t\t\tAplicacion " << i + 1 << ": " << pila->getNodoEnPosicion(i)->valor->getNombre() << endl;
+				cout << "\t\t\tLISTA ORIGINAL:" << endl;
+				mostrarAplicaciones();
+				cout << endl;
+				cout << "\t\t\tLISTA ORDENADA:" << endl;
+				cout << "\t\t\tEl segundo elemento mas pequeño por QUICKSELECT es: " << objetoListaDoblementeEnlazada->ordenamientoQuickselect(1)->getIdentificador() << endl;
 			}
 			break;
-		case 8:
+		}
+		case 9:
 		{
 			int tipo;
 			cout << "\n\n\n\n\t\t\tCAMBIAR TIPO DE USUARIO:" << endl << endl;

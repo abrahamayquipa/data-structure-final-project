@@ -39,8 +39,9 @@ int menuPrincipal() {
         cout << "\t\t\t4. Ordenamiento ascendente la lista de aplicaciones disponibles" << endl;
         cout << "\t\t\t5. Listar todas las aplicaciones instaladas actualmente" << endl;
         cout << "\t\t\t6. Listar todas las aplicaciones instaladas anteriormente - biblioteca de descargas" << endl;
+        cout << "\t\t\t7. Listar mediante QUICKSELECT" << endl;
         cout << endl << "\t\t\tOPCION EXTRA:" << endl;
-        cout << "\t\t\t7. Cambiar tipo de usuario" << endl << endl;
+        cout << "\t\t\t8. Cambiar tipo de usuario" << endl << endl;
         cout << "\t\t\tElegir opcion: "; cin >> opcion;
         return opcion;
     };
@@ -76,8 +77,11 @@ void menuSecundario(Operaciones* objetoOperaciones) {
     case 6: 
         objetoOperaciones->menuInternoOpciones(7, 0);
         break;
-    case 7: 
+    case 7:
         objetoOperaciones->menuInternoOpciones(8, 0);
+        break;
+    case 8: 
+        objetoOperaciones->menuInternoOpciones(9, 0);
         break;
     }
 }

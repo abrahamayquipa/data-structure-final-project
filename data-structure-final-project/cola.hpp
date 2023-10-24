@@ -36,6 +36,7 @@ public:
 		nuevoNodo = NULL;
 	}
 
+
 	T dequeue() {
 		if (estaVacia()) return NULL;
 		T dato = inicio->valor;

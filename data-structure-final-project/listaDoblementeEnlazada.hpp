@@ -30,6 +30,16 @@ public:
         }
     }
 
+    void limpiarLista() {
+        while (cabeza != nullptr) {
+            Nodo<T>* temporal = cabeza;
+            cabeza = cabeza->siguiente;
+            delete temporal;
+        }
+        cola = nullptr;
+        longitud = 0;
+    }
+
     void insertarFinal(T valor) {
         Nodo<T>* nuevoNodo = new Nodo<T>(valor);
 
@@ -74,6 +84,47 @@ public:
         Nodo<T>* nodo2 = nodo1->siguiente;
 
         swap(nodo1->valor, nodo2->valor);
+    }
+
+    /*
+    * Fuente 3: stackoverflow
+    * https://stackoverflow.com/questions/60776300/quickselect-algorithm-for-singly-linked-list-c
+    */
+    Nodo<Aplicacion*>* particion(Nodo<Aplicacion*>* inicio, Nodo<Aplicacion*>* fin) {
+        int pivote = fin->valor->getIdentificador();
+        Nodo<Aplicacion*>* posicionMenor = inicio->anterior;
+
+        for (Nodo<Aplicacion*>* i = inicio; i != fin; i = i->siguiente) {
+            if (i->valor->getIdentificador() <= pivote) {
+                posicionMenor = (posicionMenor == nullptr) ? cabeza : posicionMenor->siguiente;
+                swap(posicionMenor->valor, i->valor);
+            }
+        }
+        posicionMenor = (posicionMenor == nullptr) ? cabeza : posicionMenor->siguiente;
+        swap(posicionMenor->valor, fin->valor);
+        return posicionMenor;
+    }
+
+    Aplicacion* quickselect(Nodo<Aplicacion*>* inicio, Nodo<Aplicacion*>* fin, int posicionBuscada) {
+        if (inicio == fin) return inicio->valor;
+
+        Nodo<Aplicacion*>* nodoPivote = particion(inicio, fin);
+
+        int longitudIzquierda = 0;
+        Nodo<Aplicacion*>* temp = inicio;
+        while (temp != nodoPivote) {
+            longitudIzquierda++;
+            temp = temp->siguiente;
+        }
+
+        if (longitudIzquierda == posicionBuscada) return nodoPivote->valor;
+        if (longitudIzquierda > posicionBuscada) return quickselect(inicio, nodoPivote->anterior, posicionBuscada);
+        return quickselect(nodoPivote->siguiente, fin, posicionBuscada - longitudIzquierda - 1);
+    }
+
+    Aplicacion* ordenamientoQuickselect(int posicionBuscada) {
+        if (posicionBuscada < 0 || posicionBuscada >= longitud) throw "Índice fuera de rango";
+        return quickselect(cabeza, cola, posicionBuscada);
     }
 };
 

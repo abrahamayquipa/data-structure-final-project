@@ -132,6 +132,8 @@
   <ItemGroup>
     <ClInclude Include="aplicacion.hpp" />
     <ClInclude Include="cola.hpp" />
+    <ClInclude Include="hashEntidad.hpp" />
+    <ClInclude Include="hashtable.hpp" />
     <ClInclude Include="listaDoblementeEnlazada.hpp" />
     <ClInclude Include="menu.hpp" />
     <ClInclude Include="nodo.hpp" />
