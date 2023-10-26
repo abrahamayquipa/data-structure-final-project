@@ -1,103 +1,99 @@
-#ifndef __ENTIDAD_ABIERTO_HPP__
-#define __ENTIDAD_ABIERTO_HPP__
-
-#include <iostream>
-#include <cmath>
-#include "hashEntidad.hpp"
-using namespace std;
+#include "HashEntidad.hpp"
+#include <string>
+#include <vector>
+#include <list>
 
 template<typename K, typename V>
 class HashTable {
 private:
-    hashEntidad<K, V>* tabla;
+    vector<HashEntidad<K, V>> tabla;
     int tamanoTabla;
     int tamanoActual;
 
-    int hashFunc(const K& key) const {
-        return static_cast<int>(key) % tamanoTabla;
+    int funcionHash(const K& key) const {
+        int hashVal = 0;
+
+        for (char ch : to_string(key)) {
+            hashVal = 37 * hashVal + ch;
+        }
+
+        return hashVal % tamanoTabla;
     }
 
-    // Tipos de direccionamiento
     int pruebaCuadratica(const K& key, int attempt) const {
-        return (hashFunc(key) + attempt + attempt * attempt) % tamanoTabla;
+        return (funcionHash(key) + attempt + attempt * attempt) % tamanoTabla;
     }
 
-public:
-    HashTable(int size = 101) : tamanoActual(0), tamanoTabla(siguientePrimo(size * 2)) {
-        tabla = new hashEntidad<K, V>[tamanoTabla];
-    }
-
-    ~HashTable() {
-        delete[] tabla;
-    }
-
-    // Una simple función para verificar si un número es primo
-    bool esPrimo(int numero) {
-        if (numero == 2 || numero == 3)  return true;
-        if (numero == 1 || numero % 2 == 0) return false;
-
-        for (int i = 3; i * i <= numero; i += 2)
-            if (numero % i == 0) return false;
-
+    bool esPrimo(int n) const {
+        if (n == 2 || n == 3) return true;
+        if (n == 1 || n % 2 == 0) return false;
+        for (int i = 3; i * i <= n; i += 2)
+            if (n % i == 0) return false;
         return true;
     }
 
-    // Obtener el siguiente número primo
-    int siguientePrimo(int numero) {
-        while (!esPrimo(numero)) numero++;
-        return numero;
+    int siguientePrimo(int n) const {
+        if (n % 2 == 0) ++n;
+        for (; !esPrimo(n); n += 2) ;
+        return n;
     }
-
-    void insertar(const K& key, const V& value) {
-        if (tamanoActual > tamanoTabla / 2) {
-            // Ampliar y rehash si necesario
-            rehash();
-        }
-
-        int intento = 0;
-        int indice = pruebaCuadratica(key, intento);
-
-        while (tabla[indice].estaActivo) {
-            intento++;
-            indice = pruebaCuadratica(key, intento);
-        }
-
-        tabla[indice] = hashEntidad<K, V>(key, value);
-        tamanoActual++;
+public:
+    HashTable(int size = 10) : tamanoTabla(size), tamanoActual(0) {
+        tabla.resize(tamanoTabla);
     }
 
     void rehash() {
-        hashEntidad<K, V>* tablaAntigua = tabla;
-        int tamanoTablaAntigua = tamanoTabla;
+        vector<HashEntidad<K, V>> oldTabla = tabla;
+        tamanoTabla = siguientePrimo(2 * this->tamanoTabla);
+        tabla.resize(tamanoTabla);
 
-        tamanoTabla = siguientePrimo(2 * tamanoTabla);
-        tabla = new hashEntidad<K, V>[tamanoTabla];
+        for (auto& item : tabla) { item = HashEntidad<K, V>(); }
+
         tamanoActual = 0;
-
-        for (int i = 0; i < tamanoTablaAntigua; i++) {
-            if (tablaAntigua[i].estaActivo) {
-                insertar(tablaAntigua[i].key, tablaAntigua[i].value);
-            }
+        for (auto& oldItem : oldTabla) {
+            if (oldItem.getKey() != K()) insertar(oldItem);
         }
-        delete[] tablaAntigua;
     }
 
-    V* buscar(const K& key) {
-        int intento = 0;
-        int indice = pruebaCuadratica(key, intento);
+    void insertar(const HashEntidad<K, V>& entidad) {
+        int indice = funcionHash(entidad.getKey());
+        int intentos = 0;
 
-        while (tabla[indice].estaActivo && tabla[indice].key != key) {
-            intento++;
-            indice = pruebaCuadratica(key, intento);
+        while (tabla[indice].getKey() != K() && intentos < tamanoTabla) {
+            indice = pruebaCuadratica(entidad.getKey(), intentos);
+            intentos++;
         }
 
-        if (tabla[indice].estaActivo && tabla[indice].key == key) {
-            return &tabla[indice].value;
+        if (intentos == tamanoTabla) {
+            rehash();
+            insertar(entidad);
+            return;
         }
-        else {
-            return nullptr;
+
+        tabla[indice] = entidad;
+        tamanoActual++;
+    }
+
+    bool estaVacio() const { return tamanoActual == 0; }
+    int longitudActual() const {  return tamanoActual; }
+
+    int buscarKey(const V& value) const {
+        int valor;
+        for (int i = 0; i < tamanoActual; i++) {
+            if (tabla[i].getValue() == value) {
+                return valor = tabla[i].getKey();
+            }
+        }
+    }
+
+    void mostrarHashtable() const {
+        for (int i = 0; i < tamanoTabla; i++) {
+            cout << "Posición " << i + 1 << ": ";
+            if (tabla[i].getKey() != K()) {  // Si hay una entidad almacenada en la posición
+                cout << "(" << tabla[i].getKey() << ", " << tabla[i].getValue() << ")";
+            }
+            else cout << "vacio";
+            cout << endl;
         }
     }
 };
-
-#endif

@@ -219,14 +219,37 @@ public:
 		
 			// main.cpp (Suponiendo que este es otro archivo)
 
-			HashTable<int, string> hashtableObjeto;
-			hashtableObjeto.insertar(1, "one");
-			hashtableObjeto.insertar(11, "eleven");
-			hashtableObjeto.insertar(21, "twenty-one");
+			HashTable<int, string> objetoHashtable;
+			objetoHashtable.insertar(HashEntidad<int, string>(0, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(1, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(2, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(3, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(4, "6"));
+			objetoHashtable.insertar(HashEntidad<int, string>(5, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(6, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(7, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(8, "25"));
+			objetoHashtable.insertar(HashEntidad<int, string>(9, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(10, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(10, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(12, "3"));
+			objetoHashtable.insertar(HashEntidad<int, string>(14, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(15, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(16, "1000"));
+			objetoHashtable.insertar(HashEntidad<int, string>(17, "1000"));
+			
+			objetoHashtable.mostrarHashtable();
 
-			cout << *hashtableObjeto.buscar(1) << endl; 
-			cout << *hashtableObjeto.buscar(11) << endl;
-			cout << *hashtableObjeto.buscar(21) << endl;
+			cout << "-------" << endl;
+			cout << objetoHashtable.buscarKey("6");
+
+			//hashtableObjeto.insertar(1, "one");
+			//hashtableObjeto.insertar(11, "eleven");
+			//hashtableObjeto.insertar(21, "twenty-one");
+			//
+			//cout << *hashtableObjeto.buscar(1) << endl;
+			//cout << *hashtableObjeto.buscar(11) << endl;
+			//cout << *hashtableObjeto.buscar(21) << endl;
 			break;
 		}
 		case 8:
