@@ -161,6 +161,7 @@ public:
 			break;
 		}
 		case 2:
+		{
 			if (!cola->estaVacia()) {
 				cout << endl;
 				cola->dequeue();
@@ -168,6 +169,7 @@ public:
 			}
 			else cout << "\n\n\n\n\t\t\tNo puedes desinstalar una aplicacion que no instalaste antes" << endl;
 			break;
+		}
 		case 3:
 		{
 			int calificacion;
@@ -216,8 +218,6 @@ public:
 			//	for (int i = 0; i < pila->getLongitud(); i++)
 			//		cout << "\t\t\tAplicacion " << i + 1 << ": " << pila->getNodoEnPosicion(i)->valor->getNombre() << endl;
 			//}
-		
-			// main.cpp (Suponiendo que este es otro archivo)
 
 			HashTable<int, string> objetoHashtable;
 			objetoHashtable.insertar(HashEntidad<int, string>(0, "1000"));
@@ -250,6 +250,46 @@ public:
 			//cout << *hashtableObjeto.buscar(1) << endl;
 			//cout << *hashtableObjeto.buscar(11) << endl;
 			//cout << *hashtableObjeto.buscar(21) << endl;
+
+			/*
+			void imprimir(int elemento) {
+			cout << elemento << " ";
+			}
+
+			int main() {
+				ArbolBinario<int> *objetoArbolBinario = new ArbolBinario<int>(imprimir);
+				objetoArbolBinario->insertar(10);
+				objetoArbolBinario->insertar(4);
+				objetoArbolBinario->insertar(15);
+				objetoArbolBinario->insertar(2);
+				objetoArbolBinario->insertar(5);
+			
+				cout << "Buscar 15: " << objetoArbolBinario->buscar(15) << " coincidencias" << endl;
+			
+				cout << "Arbol ordenado en-orden: ";
+				objetoArbolBinario->ordenamientoEnOrden(); cout << endl;
+				cout << "Arbol ordenado pre-orden: ";
+				objetoArbolBinario->ordenamientoPreOrden(); cout << endl;
+				cout << "Arbol ordenado post-orden: ";
+				objetoArbolBinario->ordenamientoPostOrden(); cout << endl;
+			
+				cout << "El arbol esta vacio?: " << objetoArbolBinario->vacio(); cout << endl;
+				cout << "Cantidad de elementos en el arbol: " << objetoArbolBinario->cantidad(); cout << endl;
+				cout << "Altura del arbol: " << objetoArbolBinario->altura(); cout << endl;
+			
+				vector<int> vectorLista;
+				for (int i = 0; i < objetoArbolBinario->cantidad(); i++) {
+					vectorLista.push_back(5);
+				}
+			
+				int respuesta = objetoArbolBinario->busquedaBinaria(vectorLista, 5);
+				cout << "Se encuentra en el indice: " << respuesta << endl;
+			
+				cin.get();
+				return 0;
+			}
+			*/
+
 			break;
 		}
 		case 8:
@@ -277,6 +317,38 @@ public:
 			cout << "\t\t\tOpcion: "; cin >> tipo;
 			cambiarUsuario(tipo);
 			break;
+		}
+		case 10:
+		{
+			cout << "\n\n\n\n\t\t\tDATASET GENERATOR: " << endl;
+			if (objetoUsuario->getTipoUsuario() == 2 || objetoUsuario->getTipoUsuario() == 3) {
+				int numero;
+				cout << "\t\t\tNumero de datos de aplicaciones a generar: ";
+				cin >> numero;
+
+				string nombre, descripcion, comentario;
+				bool disponibleParaComprar;
+				int calificacion;
+
+				string listaNombres[5] = { "Facebook", "Whatsapp", "Messenger", "X", "Telegram" };
+				string listaDescripciones[2] = { "Aplicacion de entretenimiento" , "Red social" };
+				string listaComentarios[5] = { "Muy buena aplicacion", "Aplicacion buena", "Estuvo el algo", "Mala aplicacion", "Pesima aplicacion" };
+
+				Aplicacion* objetoAplicacion;
+
+				for (int i = 0; i < numero; i++) {
+					nombre = listaNombres[rand() % 5];
+					descripcion = listaNombres[rand() % 2];
+					disponibleParaComprar = rand() % 2;
+					comentario = listaComentarios[rand() % 5];
+					calificacion = rand() % 6;
+
+					objetoAplicacion = new Aplicacion(nombre, descripcion, disponibleParaComprar, comentario, calificacion);
+					objetoListaDoblementeEnlazada->insertarFinal(objetoAplicacion);
+				}
+				break;
+			}
+			else cout << "\t\t\tOpcion solo disponible para desarrolladores o staff de la app";
 		}
 		};
 	}

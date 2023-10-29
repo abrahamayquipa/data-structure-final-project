@@ -19,6 +19,15 @@ public:
         this->comentario = "Sin comentarios";
         this->calificacion = 0;
     }
+    Aplicacion(string nombre, string descripcion, bool disponibleParaComprar, string comentario, int calificacion) {
+        this->tipoUsuario = "regular";
+        this->nombre = nombre;
+        this->identificador = 1 + rand() % 10;
+        this->descripcion = descripcion;
+        this->disponibleParaComprar = disponibleParaComprar;
+        this->comentario = comentario;
+        this->calificacion = calificacion;
+    }
     ~Aplicacion() {};
 
     string getTipoUsario() { return tipoUsuario; };

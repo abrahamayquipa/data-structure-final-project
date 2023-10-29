@@ -1,4 +1,4 @@
 ﻿  data-structure-final-project.cpp
 C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\data-structure-final-project.cpp(17,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\hashtable.hpp(107): warning C4715: 'HashTable<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::buscarPosicion': not all control paths return a value
+C:\Users\PC\Desktop\data-structure-final-project\data-structure-final-project\hashtable.hpp(87): warning C4715: 'HashTable<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::buscarKey': not all control paths return a value
   data-structure-final-project.vcxproj -> C:\Users\PC\Desktop\data-structure-final-project\x64\Debug\data-structure-final-project.exe

@@ -32,7 +32,7 @@ int menuPrincipal() {
         cout << "\t\t\t########       ###           ###     ###    ###    ###      ########" << endl;
         cout << "\t\t\t*********************************STORE********************************" << endl;
         SetConsoleTextAttribute(color, 15);
-        cout << "\n\t\t\t\t\t\tMENU DE OPCIONES" << endl << endl;
+        cout << "\n\t\t\t****************************MENU DE OPCIONES**************************" << endl;
         cout << "\t\t\t1. Buscar aplicacion" << endl;
         cout << "\t\t\t2. Agregar aplicacion" << endl;
         cout << "\t\t\t3. Listar todas las aplicaciones disponibles" << endl;
@@ -41,7 +41,8 @@ int menuPrincipal() {
         cout << "\t\t\t6. Listar todas las aplicaciones instaladas anteriormente - biblioteca de descargas" << endl;
         cout << "\t\t\t7. Listar mediante QUICKSELECT" << endl;
         cout << endl << "\t\t\tOPCION EXTRA:" << endl;
-        cout << "\t\t\t8. Cambiar tipo de usuario" << endl << endl;
+        cout << "\t\t\t8. Cambiar tipo de usuario" << endl;
+        cout << "\t\t\t9. Usar el algoritmo dataset generator" << endl << endl;
         cout << "\t\t\tElegir opcion: "; cin >> opcion;
         return opcion;
     };
@@ -82,6 +83,9 @@ void menuSecundario(Operaciones* objetoOperaciones) {
         break;
     case 8: 
         objetoOperaciones->menuInternoOpciones(9, 0);
+        break;
+    case 9:
+        objetoOperaciones->menuInternoOpciones(10, 0);
         break;
     }
 }
