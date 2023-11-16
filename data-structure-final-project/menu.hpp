@@ -45,7 +45,7 @@ int menuPrincipal() {
         cout << "\t\t\t9. Usar el algoritmo dataset generator" << endl << endl;
         cout << "\t\t\tElegir opcion: "; cin >> opcion;
         return opcion;
-    };
+        };
     return mostrarMenu();
 }
 
@@ -61,7 +61,7 @@ void menuSecundario(Operaciones* objetoOperaciones) {
         cout << endl;
         objetoOperaciones->buscarAplicacion(nombre);
         break;
-    case 2: 
+    case 2:
         cout << "\n\n\n\n\t\t\tAGREGAR APLICACION: " << endl;
         objetoOperaciones->agregarAplicacion();
         break;
@@ -75,13 +75,13 @@ void menuSecundario(Operaciones* objetoOperaciones) {
     case 5:
         objetoOperaciones->menuInternoOpciones(6, 0);
         break;
-    case 6: 
+    case 6:
         objetoOperaciones->menuInternoOpciones(7, 0);
         break;
     case 7:
         objetoOperaciones->menuInternoOpciones(8, 0);
         break;
-    case 8: 
+    case 8:
         objetoOperaciones->menuInternoOpciones(9, 0);
         break;
     case 9:

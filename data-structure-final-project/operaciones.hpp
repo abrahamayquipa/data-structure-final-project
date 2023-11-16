@@ -96,9 +96,9 @@ public:
 		cout << "\t\t\tNombre: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() << endl;
 		cout << "\t\t\tDescripcion: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getDescripcion() << endl;
 
-		if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getAplicacionDisponibleComprar() == 0) 
+		if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getAplicacionDisponibleComprar() == 0)
 			cout << "\t\t\tOpcion de compra: No dispoible, unicamente descarga" << endl;
-		else 
+		else
 			cout << "\t\t\tOpcion de compra: Dispoible a $0.99" << endl;
 
 		cout << "\t\t\tComentario: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getComentarios() << endl;
@@ -117,7 +117,7 @@ public:
 	void odernarAscendentemente() {
 		for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud() - 1; i++) {
 			for (int j = 0; j < objetoListaDoblementeEnlazada->getLongitud() - i - 1; j++) {
-				if (objetoListaDoblementeEnlazada->getNodoEnPosicion(j)->valor->getIdentificador() > 
+				if (objetoListaDoblementeEnlazada->getNodoEnPosicion(j)->valor->getIdentificador() >
 					objetoListaDoblementeEnlazada->getNodoEnPosicion(j + 1)->valor->getIdentificador()) {
 
 					objetoListaDoblementeEnlazada->ordenamientoBurbuja(j);
@@ -131,8 +131,9 @@ public:
 		if (objetoListaDoblementeEnlazada->estaVacia()) {
 			system("cls");
 			cout << "\n\n\n\t\t\tLa lista de aplicaciones esta vacia o ingresaste mal el nombre";
-		} else {
-			for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {		
+		}
+		else {
+			for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {
 				if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() == nombre) {
 					cout << endl; // 1
 					cout << "\t\t\t*Coincidencias en la posicion " << i + 1 << "*" << endl;
@@ -237,7 +238,7 @@ public:
 			objetoHashtable.insertar(HashEntidad<int, string>(15, "1000"));
 			objetoHashtable.insertar(HashEntidad<int, string>(16, "1000"));
 			objetoHashtable.insertar(HashEntidad<int, string>(17, "1000"));
-			
+
 			objetoHashtable.mostrarHashtable();
 
 			cout << "-------" << endl;
@@ -263,28 +264,28 @@ public:
 				objetoArbolBinario->insertar(15);
 				objetoArbolBinario->insertar(2);
 				objetoArbolBinario->insertar(5);
-			
+
 				cout << "Buscar 15: " << objetoArbolBinario->buscar(15) << " coincidencias" << endl;
-			
+
 				cout << "Arbol ordenado en-orden: ";
 				objetoArbolBinario->ordenamientoEnOrden(); cout << endl;
 				cout << "Arbol ordenado pre-orden: ";
 				objetoArbolBinario->ordenamientoPreOrden(); cout << endl;
 				cout << "Arbol ordenado post-orden: ";
 				objetoArbolBinario->ordenamientoPostOrden(); cout << endl;
-			
+
 				cout << "El arbol esta vacio?: " << objetoArbolBinario->vacio(); cout << endl;
 				cout << "Cantidad de elementos en el arbol: " << objetoArbolBinario->cantidad(); cout << endl;
 				cout << "Altura del arbol: " << objetoArbolBinario->altura(); cout << endl;
-			
+
 				vector<int> vectorLista;
 				for (int i = 0; i < objetoArbolBinario->cantidad(); i++) {
 					vectorLista.push_back(5);
 				}
-			
+
 				int respuesta = objetoArbolBinario->busquedaBinaria(vectorLista, 5);
 				cout << "Se encuentra en el indice: " << respuesta << endl;
-			
+
 				cin.get();
 				return 0;
 			}
