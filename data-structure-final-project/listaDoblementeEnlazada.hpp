@@ -5,6 +5,7 @@
 #include "operaciones.hpp"
 #include <cstdint>
 #include <functional>
+#include <vector>
 
 /*
 * Fuente 1: taller 3 de algoritmos y estructura de datos(no hay link de bibliografia)
@@ -125,6 +126,82 @@ public:
     Aplicacion* ordenamientoQuickselect(int posicionBuscada) {
         if (posicionBuscada < 0 || posicionBuscada >= longitud) throw "Índice fuera de rango";
         return quickselect(cabeza, cola, posicionBuscada);
+    }
+    
+    //void Merge(int* A1, int* A2, int* A, int n) {
+    //    int i = 0, j = 0, k = 0;
+    //    int mitad = n / 2;
+    //    while (i < mitad && j < n - mitad) {
+    //        if (A1[i] < A2[j]) {
+    //            A[k] = A1[i];
+    //            i++; k++;
+    //        }
+    //        else {
+    //            A[k] = A2[j];
+    //            j++; k++;
+    //        }
+    //    }
+    //    while (i < mitad) {
+    //        A[k] = A1[i];
+    //        i++; k++;
+    //    }
+    //    while (j < n - mitad) {
+    //        A[k] = A2[j];
+    //        j++; k++;
+    //    }
+    //}
+    //
+    //void mergeSort(int* A, int n) {
+    //    if (n > 1) {
+    //        int mitad = n / 2;
+    //        int* A1 = new int[mitad];
+    //        int* A2 = new int[n - mitad];
+    //
+    //        for (int i = 0; i < mitad; i++) {
+    //            A1[i] = A[i];
+    //        }
+    //        for (int i = mitad; i < n; i++) {
+    //            A2[i - mitad] = A[i];
+    //        }
+    //        mergeSort(A1, mitad);
+    //        mergeSort(A2, n - mitad);
+    //        Merge(A1, A2, A, n);
+    //    }
+    //}
+
+    void Merge(vector<int>& A1, vector<int>& A2, vector<int>& A, int n) {
+        int i = 0, j = 0, k = 0;
+        int mitad = n / 2;
+        while (i < mitad && j < n - mitad) {
+            if (A1[i] < A2[j]) {
+                A[k] = A1[i];
+                i++; k++;
+            }
+            else {
+                A[k] = A2[j];
+                j++; k++;
+            }
+        }
+        while (i < mitad) {
+            A[k] = A1[i];
+            i++; k++;
+        }
+        while (j < n - mitad) {
+            A[k] = A2[j];
+            j++; k++;
+        }
+    }
+
+    void mergeSort(vector<int>& A, int n) {
+        if (n > 1) {
+            int mitad = n / 2;
+            vector<int> A1(A.begin(), A.begin() + mitad);
+            vector<int> A2(A.begin() + mitad, A.end());
+
+            mergeSort(A1, mitad);
+            mergeSort(A2, n - mitad);
+            Merge(A1, A2, A, mitad + n - mitad);
+        }
     }
 };
 

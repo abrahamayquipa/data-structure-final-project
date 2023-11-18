@@ -2,23 +2,19 @@
 #define __ARBOL_BINARIO_HPP__
 
 #include <functional>
+#include "nodo.hpp"
 using namespace std;
-
-template<class T>
-class Nodo {
-public:
-	T elemento;
-	Nodo* nodoIzquierdo;
-	Nodo* nodoDerecho;
-};
 
 template<class T>
 class ArbolBinario {
 	typedef function<int(T, T)> Comp;
-	void(*procesar)(T);
 	Nodo<T>* raiz;
 	Comp comparar;
 private:
+	void procesar(int elemento) {
+		cout << elemento << " ";
+	}
+
 	bool _buscar(Nodo<T>* nodo, T elemento) {
 		if (nodo == nullptr) return false;
 		else {
@@ -88,8 +84,7 @@ private:
 		procesar(nodo->elemento);
 	}
 public:
-	ArbolBinario(void(*nuevoProcesar)(T)) {
-		this->procesar = nuevoProcesar;
+	ArbolBinario() {
 		this->comparar = [](T a, T b)->int { return a - b; };
 		this->raiz = nullptr;
 	}

@@ -7,9 +7,13 @@
 #include "cola.hpp"
 #include "hashEntidad.hpp"
 #include "hashtable.hpp"
+#include "arbolAVL.hpp"
+#include "arbolBinario.hpp"
+#include "grafos.hpp"
 #include "menu.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 class Operaciones {
@@ -18,18 +22,29 @@ private:
 	Pila<Aplicacion*>* pila;
 	Cola<Aplicacion*>* cola;
 	Usuario* objetoUsuario;
+	ArbolBinario<int>* objetoArbolBinario;
+	ArbolAVL<string>* objetoArbolAVL;
+	Grafo<int>* objetoGrafo;
+	HashTable<int, string> objetoHashtable;
+	int pos;
 public:
 	Operaciones() {
 		objetoListaDoblementeEnlazada = new ListaDoblementeEnlazada<Aplicacion*>();
 		pila = new Pila<Aplicacion*>();
-		cola = new Cola<Aplicacion*>();;
+		cola = new Cola<Aplicacion*>();
 		objetoUsuario = new UsuarioRegular();
+		objetoArbolBinario = new ArbolBinario<int>();
+		objetoArbolAVL = new ArbolAVL<string>();
+		objetoGrafo = new Grafo<int>();
+		objetoHashtable;
 	};
 	~Operaciones() {
 		delete objetoListaDoblementeEnlazada;
 		delete pila;
 		delete cola;
 		delete objetoUsuario;
+		delete objetoArbolBinario;
+		delete objetoArbolAVL;
 	};
 
 	int menuInterno() {
@@ -88,6 +103,10 @@ public:
 		else cout << "\t\t\tOpcion solo disponible para desarrolladores o staff de la app";
 	}
 
+	void setPosicion(int nuevaPosicion) {
+		pos = nuevaPosicion;
+	}
+	
 	void mostrarAplicacion(int i) {
 		if (i >= objetoListaDoblementeEnlazada->getLongitud()) return;
 		cout << endl;
@@ -102,7 +121,13 @@ public:
 			cout << "\t\t\tOpcion de compra: Dispoible a $0.99" << endl;
 
 		cout << "\t\t\tComentario: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getComentarios() << endl;
-		cout << "\t\t\tCalificacion: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getCalificacion() << " estrellas" << endl;
+		
+		for (int j = 0; j < objetoGrafo->cantidadVertices(); j++) {
+			if(objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getCalificacion() != 0)
+			cout << "\t\t\tCalificacion: " << objetoGrafo->obtenerVertice(j) << " estrellas" << endl;
+			else
+				cout << "\t\t\tCalificacion: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getCalificacion() << " estrellas" << endl;
+		}
 		mostrarAplicacion(i + 1);
 	}
 
@@ -130,23 +155,32 @@ public:
 	void buscarAplicacion(string nombre) {
 		if (objetoListaDoblementeEnlazada->estaVacia()) {
 			system("cls");
-			cout << "\n\n\n\t\t\tLa lista de aplicaciones esta vacia o ingresaste mal el nombre";
+			cout << "\n\n\n\t\t\tLa lista de aplicaciones esta vacia";
 		}
 		else {
-			for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {
-				if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() == nombre) {
-					cout << endl; // 1
-					cout << "\t\t\t*Coincidencias en la posicion " << i + 1 << "*" << endl;
-					cout << "\t\t\tNombre: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getNombre() << endl;
-					cout << "\t\t\tDescripcion: " << objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getDescripcion() << endl;
+			bool aplicacionEncontrada = false;
 
-					if (objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getAplicacionDisponibleComprar() == 0)
-						cout << "\t\t\tOpcion de compra: No dispoible, unicamente descarga" << endl;
-					else cout << "\t\t\tOpcion de compra: Dispoible a $0.99" << endl;
+			for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {
+				Aplicacion* aplicacionActual = objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor;
+
+				if (aplicacionActual->getNombre() == nombre) {
+					aplicacionEncontrada = true;
+
+					cout << endl;
+					cout << "\t\t\t*Coincidencias en la posicion " << i + 1 << "*" << endl;
+					cout << "\t\t\tNombre: " << aplicacionActual->getNombre() << endl;
+					cout << "\t\t\tDescripcion: " << aplicacionActual->getDescripcion() << endl;
+
+					if (aplicacionActual->getAplicacionDisponibleComprar() == 0)
+						cout << "\t\t\tOpcion de compra: No disponible, únicamente descarga" << endl;
+					else
+						cout << "\t\t\tOpcion de compra: Disponible a $0.99" << endl;
+
 					int opcionMenuInterno = menuInterno();
 					menuInternoOpciones(opcionMenuInterno, i);
 				}
 			}
+			if (!aplicacionEncontrada) cout << "\t\t\tLa aplicacion no se encontro";
 		}
 	}
 
@@ -155,17 +189,17 @@ public:
 		switch (opcion) {
 		case 1:
 		{
-			cout << endl;
-			cola->enqueue(new Aplicacion(*objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor));
-			pila->insertar(new Aplicacion(*objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor));
+			string nombre = objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor->getNombre();
+			objetoHashtable.insertar(HashEntidad<int, string>(posicion, nombre));
+			objetoArbolAVL->Insertar(objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor->getNombre());
 			cout << "\n\n\n\n\t\t\tAPLICACION INSTALADA...";
 			break;
 		}
 		case 2:
 		{
-			if (!cola->estaVacia()) {
-				cout << endl;
-				cola->dequeue();
+			if (!objetoHashtable.estaVacio()) {
+				
+				objetoHashtable.eliminar(posicion);
 				cout << "\n\n\n\n\t\t\tAPLICACION DESINSTALADA...";
 			}
 			else cout << "\n\n\n\n\t\t\tNo puedes desinstalar una aplicacion que no instalaste antes" << endl;
@@ -176,7 +210,10 @@ public:
 			int calificacion;
 			cout << "\n\n\n\n\t\t\tIngrese tu calificacion(1-5 estrellas): ";
 			cin >> calificacion;
-			objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor->setCalificacion(calificacion);
+			// objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor->setCalificacion(calificacion);
+			for (int i = 0; i <= posicion; i++) {
+				if (i == posicion) objetoGrafo->adicionarVertice(calificacion);
+			};
 			break;
 		}
 		case 4:
@@ -186,6 +223,7 @@ public:
 			cin.ignore();
 			getline(cin, comentario);
 			objetoListaDoblementeEnlazada->getNodoEnPosicion(posicion)->valor->setComentario(comentario);
+			setPosicion(posicion);
 			break;
 		}
 		case 5:
@@ -196,101 +234,44 @@ public:
 				cout << "\t\t\tLISTA ORIGINAL:" << endl;
 				mostrarAplicaciones();
 				cout << endl;
-				cout << "\t\t\tLISTA ASCENDENTE:" << endl;
+				
+				cout << "\t\t\tLISTA ORDENADA POR MERGESORT SEGUN LOS IDENTIFICADORES:" << endl;
+				cout << "\t\t\t";
+
+				vector<int> arreglo;
+
+				if (objetoListaDoblementeEnlazada != nullptr) {
+					for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {
+						int valor = objetoListaDoblementeEnlazada->getNodoEnPosicion(i)->valor->getIdentificador();
+						arreglo.push_back(valor);
+					}
+					objetoListaDoblementeEnlazada->mergeSort(arreglo, arreglo.size());
+					for (int i = 0; i < objetoListaDoblementeEnlazada->getLongitud(); i++) {
+						cout << arreglo.at(i) << " ";
+					}
+				}
+
+				cout << "\n\n\t\t\tLISTA ASCENDENTE POR BURBURJA:";
 				odernarAscendentemente();
+				cout << endl;
 			}
 			break;
 		}
 		case 6:
 		{
 			cout << "\n\n\n\n\t\t\tAPLICACIONES INSTALADAS ACTUALMENTE:" << endl;
-			if (cola->estaVacia()) cout << "\t\t\tNo hay aplicaciones instaladas ahora mismo";
+			if (objetoHashtable.estaVacio()) cout << "\t\t\tNo hay aplicaciones instaladas ahora mismo";
 			else {
-				for (int i = 0; i < cola->getLongitud(); i++)
-					cout << "\t\t\tAplicacion " << i + 1 << ": " << cola->getNodoEnPosicion(i)->valor->getNombre() << endl;
+				cout << "\t\t\t";
+				objetoHashtable.mostrar();
 			}
 			break;
 		}
 		case 7:
 		{
-			//cout << "\n\n\n\n\t\t\tAPLICACIONES INSTALADAS ANTERIORMENTE:" << endl;
-			//if (pila->estaVacia()) cout << "\t\t\tHistorial vacio";
-			//else {
-			//	for (int i = 0; i < pila->getLongitud(); i++)
-			//		cout << "\t\t\tAplicacion " << i + 1 << ": " << pila->getNodoEnPosicion(i)->valor->getNombre() << endl;
-			//}
-
-			HashTable<int, string> objetoHashtable;
-			objetoHashtable.insertar(HashEntidad<int, string>(0, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(1, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(2, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(3, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(4, "6"));
-			objetoHashtable.insertar(HashEntidad<int, string>(5, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(6, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(7, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(8, "25"));
-			objetoHashtable.insertar(HashEntidad<int, string>(9, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(10, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(10, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(12, "3"));
-			objetoHashtable.insertar(HashEntidad<int, string>(14, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(15, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(16, "1000"));
-			objetoHashtable.insertar(HashEntidad<int, string>(17, "1000"));
-
-			objetoHashtable.mostrarHashtable();
-
-			cout << "-------" << endl;
-			cout << objetoHashtable.buscarKey("6");
-
-			//hashtableObjeto.insertar(1, "one");
-			//hashtableObjeto.insertar(11, "eleven");
-			//hashtableObjeto.insertar(21, "twenty-one");
-			//
-			//cout << *hashtableObjeto.buscar(1) << endl;
-			//cout << *hashtableObjeto.buscar(11) << endl;
-			//cout << *hashtableObjeto.buscar(21) << endl;
-
-			/*
-			void imprimir(int elemento) {
-			cout << elemento << " ";
-			}
-
-			int main() {
-				ArbolBinario<int> *objetoArbolBinario = new ArbolBinario<int>(imprimir);
-				objetoArbolBinario->insertar(10);
-				objetoArbolBinario->insertar(4);
-				objetoArbolBinario->insertar(15);
-				objetoArbolBinario->insertar(2);
-				objetoArbolBinario->insertar(5);
-
-				cout << "Buscar 15: " << objetoArbolBinario->buscar(15) << " coincidencias" << endl;
-
-				cout << "Arbol ordenado en-orden: ";
-				objetoArbolBinario->ordenamientoEnOrden(); cout << endl;
-				cout << "Arbol ordenado pre-orden: ";
-				objetoArbolBinario->ordenamientoPreOrden(); cout << endl;
-				cout << "Arbol ordenado post-orden: ";
-				objetoArbolBinario->ordenamientoPostOrden(); cout << endl;
-
-				cout << "El arbol esta vacio?: " << objetoArbolBinario->vacio(); cout << endl;
-				cout << "Cantidad de elementos en el arbol: " << objetoArbolBinario->cantidad(); cout << endl;
-				cout << "Altura del arbol: " << objetoArbolBinario->altura(); cout << endl;
-
-				vector<int> vectorLista;
-				for (int i = 0; i < objetoArbolBinario->cantidad(); i++) {
-					vectorLista.push_back(5);
-				}
-
-				int respuesta = objetoArbolBinario->busquedaBinaria(vectorLista, 5);
-				cout << "Se encuentra en el indice: " << respuesta << endl;
-
-				cin.get();
-				return 0;
-			}
-			*/
-
+			cout << "\n\n\n\n\t\t\tAPLICACIONES INSTALADAS ANTERIORMENTE:" << endl;
+			if (objetoArbolAVL->estaVacio()) cout << "\t\t\tHistorial vacio";
+			else objetoArbolAVL->inOrden();
 			break;
 		}
 		case 8:
@@ -302,7 +283,7 @@ public:
 				cout << "\t\t\tLISTA ORIGINAL:" << endl;
 				mostrarAplicaciones();
 				cout << endl;
-				cout << "\t\t\tLISTA ORDENADA:" << endl;
+				cout << "\t\t\tLISTA ORDENADA POR QUICKSELECT:" << endl;
 				cout << "\t\t\tEl segundo elemento mas pequeño por QUICKSELECT es: " << objetoListaDoblementeEnlazada->ordenamientoQuickselect(1)->getIdentificador() << endl;
 			}
 			break;
@@ -322,34 +303,47 @@ public:
 		case 10:
 		{
 			cout << "\n\n\n\n\t\t\tDATASET GENERATOR: " << endl;
+
 			if (objetoUsuario->getTipoUsuario() == 2 || objetoUsuario->getTipoUsuario() == 3) {
 				int numero;
 				cout << "\t\t\tNumero de datos de aplicaciones a generar: ";
 				cin >> numero;
 
-				string nombre, descripcion, comentario;
-				bool disponibleParaComprar;
-				int calificacion;
+				const int maxNombres = 20;
+				string listaNombres[maxNombres] = {
+					"Facebook", "Instagram", "Twitter", "Snapchat", "LinkedIn",
+					"WhatsApp", "Telegram", "Signal", "Skype", "Zoom",
+					"Netflix", "Hulu", "Amazon Prime Video", "Disney+", "Apple TV+",
+					"Spotify", "Apple Music", "Google Play Music", "SoundCloud", "Deezer",
+				};
 
-				string listaNombres[5] = { "Facebook", "Whatsapp", "Messenger", "X", "Telegram" };
-				string listaDescripciones[2] = { "Aplicacion de entretenimiento" , "Red social" };
+				string listaDescripciones[2] = { "Aplicacion de entretenimiento", "Red social" };
 				string listaComentarios[5] = { "Muy buena aplicacion", "Aplicacion buena", "Estuvo el algo", "Mala aplicacion", "Pesima aplicacion" };
 
 				Aplicacion* objetoAplicacion;
 
-				for (int i = 0; i < numero; i++) {
-					nombre = listaNombres[rand() % 5];
-					descripcion = listaNombres[rand() % 2];
-					disponibleParaComprar = rand() % 2;
-					comentario = listaComentarios[rand() % 5];
-					calificacion = rand() % 6;
+				vector<string> nombresUsados;
 
-					objetoAplicacion = new Aplicacion(nombre, descripcion, disponibleParaComprar, comentario, calificacion);
+				for (int i = 0; i < min(numero, maxNombres); i++) {
+					if (nombresUsados.size() == maxNombres) {
+						cout << "\t\t\tNo hay suficientes nombres de aplicaciones unicas disponibles.";
+						break;
+					}
+
+					string nombre;
+					do {
+						nombre = listaNombres[rand() % maxNombres];
+					} while (find(nombresUsados.begin(), nombresUsados.end(), nombre) != nombresUsados.end());
+
+					nombresUsados.push_back(nombre);
+
+					objetoAplicacion = new Aplicacion(nombre, listaDescripciones[rand() % 2], rand() % 2, listaComentarios[rand() % 5], rand() % 6);
 					objetoListaDoblementeEnlazada->insertarFinal(objetoAplicacion);
 				}
-				break;
 			}
-			else cout << "\t\t\tOpcion solo disponible para desarrolladores o staff de la app";
+			else {
+				cout << "\t\t\tOpcion solo disponible para desarrolladores o staff de la app";
+			}
 		}
 		};
 	}

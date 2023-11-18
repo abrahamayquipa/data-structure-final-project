@@ -62,5 +62,11 @@
     <ClInclude Include="arbolBinario.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="arbolAVL.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="grafos.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

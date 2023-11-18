@@ -131,8 +131,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aplicacion.hpp" />
+    <ClInclude Include="arbolAVL.hpp" />
     <ClInclude Include="arbolBinario.hpp" />
     <ClInclude Include="cola.hpp" />
+    <ClInclude Include="grafos.hpp" />
     <ClInclude Include="hashEntidad.hpp" />
     <ClInclude Include="hashtable.hpp" />
     <ClInclude Include="listaDoblementeEnlazada.hpp" />

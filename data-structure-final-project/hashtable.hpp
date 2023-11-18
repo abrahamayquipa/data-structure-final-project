@@ -10,26 +10,60 @@ private:
     int tamanoTabla;
     int tamanoActual;
 
+    /*
+    * Fuente 1: stackoverflow
+    * https://stackoverflow.com/questions/7666509/hash-function-for-string
+    * 
+    * Fuente 2: stackoverflow
+    * https://cp-algorithms.com/string/string-hashing.html
+    */
+
+    /*
     int funcionHash(const K& key) const {
         int hashVal = 0;
+        for (char ch : to_string(key)) hashVal = 37 * hashVal + ch;
+        return hashVal % tamanoTabla;
+    }*/
+
+    size_t funcionHash(const K& key) const {
+        hash<K> hashFunction;
+        size_t hashVal = hashFunction(key);
 
         for (char ch : to_string(key)) {
-            hashVal = 37 * hashVal + ch;
+            hashVal = (hashVal << 5) ^ (hashVal >> 27) ^ ch;
         }
 
-        return hashVal % tamanoTabla;
+        return (hashVal % tamanoTabla + tamanoTabla) % tamanoTabla;
     }
 
-    int pruebaCuadratica(const K& key, int attempt) const {
-        return (funcionHash(key) + attempt + attempt * attempt) % tamanoTabla;
+    //int pruebaCuadratica(const K& key, int attempt) const {
+    //    return (funcionHash(key) + attempt + attempt * attempt) % tamanoTabla;
+    //}
+
+    int pruebaCuadratica(const K& key, int intento) const {
+        auto prueba = [this, &key, &intento]() {
+            return (funcionHash(key) + intento + intento * intento) % tamanoTabla;
+        };
+        return prueba();
     }
+
+    //bool esPrimo(int n) const {
+    //    if (n == 2 || n == 3) return true;
+    //    if (n == 1 || n % 2 == 0) return false;
+    //    for (int i = 3; i * i <= n; i += 2)
+    //        if (n % i == 0) return false;
+    //    return true;
+    //}
 
     bool esPrimo(int n) const {
-        if (n == 2 || n == 3) return true;
-        if (n == 1 || n % 2 == 0) return false;
-        for (int i = 3; i * i <= n; i += 2)
-            if (n % i == 0) return false;
-        return true;
+        auto lambda = [](int n) {
+            if (n == 2 || n == 3) return true;
+            if (n == 1 || n % 2 == 0) return false;
+            for (int i = 3; i * i <= n; i += 2)
+                if (n % i == 0) return false;
+            return true;
+        };
+        return lambda(n);
     }
 
     int siguientePrimo(int n) const {
@@ -37,9 +71,13 @@ private:
         for (; !esPrimo(n); n += 2) ;
         return n;
     }
+
 public:
-    HashTable(int size = 10) : tamanoTabla(size), tamanoActual(0) {
-        tabla.resize(tamanoTabla);
+    HashTable(int size = 20) : tamanoTabla(size), tamanoActual(0) {
+        auto lambda = [this]() {
+            tabla.resize(tamanoTabla);
+            };
+        lambda();
     }
 
     void rehash() {
@@ -74,6 +112,23 @@ public:
         tamanoActual++;
     }
 
+    void eliminar(const K& key) {
+        int indice = funcionHash(key);
+        int intentos = 0;
+
+        while (tabla[indice].getKey() != K() && intentos < tamanoTabla) {
+            if (tabla[indice].getKey() == key) {
+                // Encuentra la clave y la elimina
+                tabla[indice] = HashEntidad<K, V>();
+                tamanoActual--;
+                return;
+            }
+            indice = pruebaCuadratica(key, intentos);
+            intentos++;
+        }
+    }
+
+
     bool estaVacio() const { return tamanoActual == 0; }
     int longitudActual() const {  return tamanoActual; }
 
@@ -88,12 +143,18 @@ public:
 
     void mostrarHashtable() const {
         for (int i = 0; i < tamanoTabla; i++) {
-            cout << "Posición " << i + 1 << ": ";
+            cout << "Posicion " << i + 1 << ": ";
             if (tabla[i].getKey() != K()) {  // Si hay una entidad almacenada en la posición
                 cout << "(" << tabla[i].getKey() << ", " << tabla[i].getValue() << ")";
             }
             else cout << "vacio";
             cout << endl;
+        }
+    }
+
+    void mostrar() {
+        for (int i = 0; i < tamanoTabla; i++) {
+            if (tabla[i].getKey() != K()) cout << tabla[i].getValue() << endl;
         }
     }
 };

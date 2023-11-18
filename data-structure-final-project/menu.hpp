@@ -39,7 +39,7 @@ int menuPrincipal() {
         cout << "\t\t\t4. Ordenamiento ascendente la lista de aplicaciones disponibles" << endl;
         cout << "\t\t\t5. Listar todas las aplicaciones instaladas actualmente" << endl;
         cout << "\t\t\t6. Listar todas las aplicaciones instaladas anteriormente - biblioteca de descargas" << endl;
-        cout << "\t\t\t7. Listar mediante QUICKSELECT" << endl;
+        cout << "\t\t\t7. Listar mediante quickselect" << endl;
         cout << endl << "\t\t\tOPCION EXTRA:" << endl;
         cout << "\t\t\t8. Cambiar tipo de usuario" << endl;
         cout << "\t\t\t9. Usar el algoritmo dataset generator" << endl << endl;

@@ -1,4 +1,39 @@
 ﻿  data-structure-final-project.cpp
-C:\Users\PC\Desktop\final-project\data-structure-final-project\data-structure-final-project\data-structure-final-project.cpp(17,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\PC\Desktop\final-project\data-structure-final-project\data-structure-final-project\hashtable.hpp(87): warning C4715: 'HashTable<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::buscarKey': not all control paths return a value
-  data-structure-final-project.vcxproj -> C:\Users\PC\Desktop\final-project\data-structure-final-project\x64\Debug\data-structure-final-project.exe
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\operaciones.hpp(248,68): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\data-structure-final-project.cpp(17,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\grafos.hpp(45,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\grafos.hpp(44,6): message : while compiling class template member function 'int Grafo<int,-1>::cantidadVertices(void)'
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\operaciones.hpp(125,3): message : see the first reference to 'Grafo<int,-1>::cantidadVertices' in 'Operaciones::mostrarAplicacion'
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\operaciones.hpp(38,21): message : see reference to class template instantiation 'Grafo<int,-1>' being compiled
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\grafos.hpp(41,27): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\grafos.hpp(37,6): message : while compiling class template member function 'int Grafo<int,-1>::adicionarVertice(T)'
+          with
+          [
+              T=int
+          ]
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\operaciones.hpp(215,53): message : see the first reference to 'Grafo<int,-1>::adicionarVertice' in 'Operaciones::menuInternoOpciones'
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\hashtable.hpp(116,20): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\hashtable.hpp(115,10): message : while compiling class template member function 'void HashTable<int,std::string>::eliminar(const K &)'
+          with
+          [
+              K=int
+          ]
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\operaciones.hpp(202,29): message : see the first reference to 'HashTable<int,std::string>::eliminar' in 'Operaciones::menuInternoOpciones'
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\operaciones.hpp(28,25): message : see reference to class template instantiation 'HashTable<int,std::string>' being compiled
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\hashtable.hpp(97,20): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\hashtable.hpp(96,10): message : while compiling class template member function 'void HashTable<int,std::string>::insertar(const HashEntidad<K,V> &)'
+          with
+          [
+              K=int,
+              V=std::string
+          ]
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\operaciones.hpp(193,28): message : see the first reference to 'HashTable<int,std::string>::insertar' in 'Operaciones::menuInternoOpciones'
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\hashtable.hpp(47,22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\hashtable.hpp(43,9): message : while compiling class template member function 'int HashTable<int,std::string>::pruebaCuadratica(const K &,int) const'
+          with
+          [
+              K=int
+          ]
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\hashtable.hpp(126,20): message : see the first reference to 'HashTable<int,std::string>::pruebaCuadratica' in 'HashTable<int,std::string>::eliminar'
+C:\Users\PC\Desktop\final-project-1\data-structure-final-project\data-structure-final-project\operaciones.hpp(202,29): message : see the first reference to 'HashTable<int,std::string>::eliminar' in 'Operaciones::menuInternoOpciones'
+  data-structure-final-project.vcxproj -> C:\Users\PC\Desktop\final-project-1\data-structure-final-project\x64\Debug\data-structure-final-project.exe
